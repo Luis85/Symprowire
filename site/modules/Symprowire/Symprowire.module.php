@@ -34,14 +34,14 @@ class Symprowire extends Wire implements Module {
     public function init() {
         $this->addHookBefore('TemplateFile::render', function($event) {
             $event->replace = true;
-            $this->execute();
+            $this->executeSymprowire();
         });
     }
 
     /**
      * @throws WireException
      */
-    protected function execute() {
+    protected function executeSymprowire() {
         $paths = wire('config')->paths;
 
         require_once $paths->root.'vendor/autoload.php';
