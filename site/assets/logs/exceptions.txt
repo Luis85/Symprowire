@@ -1,3 +1,0 @@
-2021-07-11 11:55:51	admin	http://symprowire.test/processwire/module/	SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'frontcontroller' for key 'name' (in D:\laragon\www\symprowire\wire\core\WireDatabasePDOStatement.php line 166)
-2021-07-11 12:05:12	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Method Fieldgroup::delete does not exist or is not callable in this context (in D:\laragon\www\symprowire\wire\core\Wire.php line 564)
-2021-07-11 12:17:11	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Can't delete template 'frontcontroller' because it is used by 1 pages. (in D:\laragon\www\symprowire\wire\core\Templates.php line 289)

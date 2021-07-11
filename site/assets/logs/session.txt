@@ -1,1 +1,0 @@
-2021-07-11 11:20:52	admin	http://symprowire.test/processwire/login/	Successful login for 'admin'

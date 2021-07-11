@@ -1,1 +1,10 @@
+.idea
 /vendor/
+/site/assets/backups
+/site/assets/cache
+/site/assets/files
+/site/assets/logs
+/site/assets/sessions
+/site/assets/active.php
+/site/assets/installed.php
+
