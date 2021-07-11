@@ -1,0 +1,12 @@
+{
+    "name": "luis/symprowire",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luis Mendez",
+            "email": "hallo@luis-mendez.de"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,65 @@
+2021-07-11 11:20:34	?	?	Saved module info caches
+2021-07-11 11:20:34	?	?	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:34	guest	http://symprowire.test/http404/	Saved module info caches
+2021-07-11 11:20:34	guest	http://symprowire.test/http404/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:34	guest	http://symprowire.test/http404/	Installed module 'ProcessRecentPages'
+2021-07-11 11:20:34	guest	http://symprowire.test/http404/	Saved module info caches
+2021-07-11 11:20:34	guest	http://symprowire.test/http404/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:35	guest	http://symprowire.test/http404/	Saved module info caches
+2021-07-11 11:20:35	guest	http://symprowire.test/http404/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:35	guest	http://symprowire.test/http404/	Installed module 'AdminThemeUikit'
+2021-07-11 11:20:35	guest	http://symprowire.test/http404/	Saved module info caches
+2021-07-11 11:20:35	guest	http://symprowire.test/http404/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:46	guest	http://symprowire.test/processwire/login/	Saved module info caches
+2021-07-11 11:20:46	guest	http://symprowire.test/processwire/login/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:47	guest	http://symprowire.test/processwire/login/	Installed module 'ProcessLogger'
+2021-07-11 11:20:47	guest	http://symprowire.test/processwire/login/	Saved module info caches
+2021-07-11 11:20:47	guest	http://symprowire.test/processwire/login/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:47	guest	http://symprowire.test/processwire/login/	Installed module 'InputfieldIcon'
+2021-07-11 11:20:47	guest	http://symprowire.test/processwire/login/	Saved module info caches
+2021-07-11 11:20:47	guest	http://symprowire.test/processwire/login/	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:52	?	?	Saved module info caches
+2021-07-11 11:20:52	?	?	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:53	?	?	Saved module info caches
+2021-07-11 11:20:53	?	?	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:20:53	?	?	Saved module info caches
+2021-07-11 11:20:53	?	?	Found 2 module(s) missing file: FieldtypeNumber => D:/laragon/www/symprowire/site/modules/FieldtypeNumber/FieldtypeNumber.module, ProcessPage => D:/laragon/www/symprowire/site/modules/ProcessPage/ProcessPage.module
+2021-07-11 11:41:59	admin	http://symprowire.test/processwire/module/download/	Saved module info caches
+2021-07-11 11:42:03	admin	http://symprowire.test/processwire/module/download/	Saved module info caches
+2021-07-11 11:42:22	admin	http://symprowire.test/processwire/module/	Installed module 'ProcessTracyAdminer'
+2021-07-11 11:42:22	admin	http://symprowire.test/processwire/module/	Installed module 'TracyDebugger'
+2021-07-11 11:42:22	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 11:49:05	admin	http://symprowire.test/processwire/module/?reset=1	Saved module info caches
+2021-07-11 11:49:13	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 11:49:13	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 11:51:37	admin	http://symprowire.test/processwire/module/edit?name=Symprowire&collapse_info=1	Uninstalled module 'Symprowire'
+2021-07-11 11:51:37	admin	http://symprowire.test/processwire/module/edit?name=Symprowire&collapse_info=1	Saved module info caches
+2021-07-11 11:51:40	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 11:51:40	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 11:51:44	admin	http://symprowire.test/processwire/setup/template/edit?id=43	Installed module 'InputfieldTextTags'
+2021-07-11 11:51:44	admin	http://symprowire.test/processwire/setup/template/edit?id=43	Saved module info caches
+2021-07-11 11:55:48	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Uninstalled module 'Symprowire'
+2021-07-11 11:55:48	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Saved module info caches
+2021-07-11 11:55:51	admin	http://symprowire.test/processwire/module/	Module reported error during install (Symprowire): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'frontcontroller' for key 'name'
+2021-07-11 11:55:51	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 11:55:51	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 11:56:38	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Uninstalled module 'Symprowire'
+2021-07-11 11:56:38	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Saved module info caches
+2021-07-11 11:59:00	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 11:59:00	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 12:05:43	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Uninstalled module 'Symprowire'
+2021-07-11 12:05:43	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Saved module info caches
+2021-07-11 12:06:55	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 12:06:55	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 12:11:12	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Uninstalled module 'Symprowire'
+2021-07-11 12:11:12	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Saved module info caches
+2021-07-11 12:11:15	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 12:11:15	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 12:13:02	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Uninstalled module 'Symprowire'
+2021-07-11 12:13:02	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Saved module info caches
+2021-07-11 12:13:05	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 12:13:05	admin	http://symprowire.test/processwire/module/	Saved module info caches
+2021-07-11 12:17:56	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Uninstalled module 'Symprowire'
+2021-07-11 12:17:57	admin	http://symprowire.test/processwire/module/edit?name=Symprowire	Saved module info caches
+2021-07-11 12:18:05	admin	http://symprowire.test/processwire/module/	Installed module 'Symprowire'
+2021-07-11 12:18:05	admin	http://symprowire.test/processwire/module/	Saved module info caches
