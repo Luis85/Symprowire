@@ -1,5 +1,6 @@
 .idea
 /vendor/
+/site/cache/
 /site/assets/backups
 /site/assets/cache
 /site/assets/files

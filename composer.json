@@ -8,5 +8,26 @@
             "email": "hallo@luis-mendez.de"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/http-foundation": "^5.3",
+        "symfony/mime": "^5.3",
+        "symfony/routing": "^5.3",
+        "symfony/http-kernel": "^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/event-dispatcher": "^5.3",
+        "ext-json": "*",
+        "doctrine/annotations": "^1.13",
+        "twig/twig": "^3.0",
+        "symfony/asset": "^5.3",
+        "symfony/yaml": "^5.3",
+        "symfony/security-csrf": "^5.3",
+        "symfony/translation": "^5.3",
+        "symfony/config": "^5.3",
+        "symfony/templating": "^5.3",
+        "symfony/expression-language": "^5.3",
+        "symfony/serializer": "^5.3"
+    },
+    "autoload": {
+        "psr-4": { "App\\": "site/src/" }
+    }
 }
