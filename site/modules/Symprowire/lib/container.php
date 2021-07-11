@@ -1,6 +1,7 @@
 <?php
 
 use App\Symprowire\Framework;
+use App\Symprowire\TwigService;
 use Symfony\Component\DependencyInjection;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\EventDispatcher;
@@ -46,6 +47,6 @@ $container->register('framework', Framework::class)
     ])
 ;
 
-$container->register('twigservice', \App\Service\TwigService::class);
+$container->register('twigservice', TwigService::class);
 
 return $container;
