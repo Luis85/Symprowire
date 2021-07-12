@@ -2,21 +2,15 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use function ProcessWire\wire;
-
 return static function (ContainerConfigurator $container) {
 
-    $config = wire('config');
-    $paths = $config->paths;
-    $container->parameters()->set('app.paths.root', $paths->root);
-    $container->parameters()->set('app.paths.site', $paths->site);
-    $container->parameters()->set('app.paths.modules', $paths->modules);
-    $container->parameters()->set('app.paths.assets', $paths->assets);
-    $container->parameters()->set('app.paths.templates', $paths->templates);
-    $container->parameters()->set('app.debug', $config->debug);
-    $container->parameters()->set('app.advanced', $config->advanced);
+    $root = $_SERVER['DOCUMENT_ROOT'];
+    $site = $root.'/site/';
 
-    $container->parameters()->set('app.urls.assets', $config->urls->assets);
-    $container->parameters()->set('app.urls.templates', $config->urls->templates);
+    $container->parameters()->set('app.paths.root', $root);
+    $container->parameters()->set('app.paths.site', $site);
+    $container->parameters()->set('app.paths.modules', $site.'/modules/');
+    $container->parameters()->set('app.paths.assets', $site.'/assets/');
+    $container->parameters()->set('app.paths.templates', $site.'/templates/');
 
 };

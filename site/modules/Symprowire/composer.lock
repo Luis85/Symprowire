@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a511882a08efbd1d723d343a08e4fa14",
+    "content-hash": "4d1591ffdc459c9c15297250813a4e55",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -857,32 +857,6 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.1.5"
             },
             "time": "2021-05-31T10:40:46+00:00"
-        },
-        {
-            "name": "symfony/apache-pack",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/apache-pack.git",
-                "reference": "3aa5818d73ad2551281fc58a75afd9ca82622e6c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/apache-pack/zipball/3aa5818d73ad2551281fc58a75afd9ca82622e6c",
-                "reference": "3aa5818d73ad2551281fc58a75afd9ca82622e6c",
-                "shasum": ""
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for Apache support in Symfony",
-            "support": {
-                "issues": "https://github.com/symfony/apache-pack/issues",
-                "source": "https://github.com/symfony/apache-pack/tree/master"
-            },
-            "time": "2017-12-12T01:46:35+00:00"
         },
         {
             "name": "symfony/asset",

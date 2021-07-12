@@ -20,7 +20,6 @@
         "composer/package-versions-deprecated": "^1.8",
         "erusev/parsedown": "^1.6",
         "sensio/framework-extra-bundle": "^6.1",
-        "symfony/apache-pack": "^1.0",
         "symfony/asset": "^5.3",
         "symfony/console": "^5.3",
         "symfony/dotenv": "^5.3",
