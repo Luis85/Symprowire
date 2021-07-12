@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use App\Symprowire\AbstractController;
+use ProcessWire\WireException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-
     /**
      * @Route("/")
+     * @throws WireException
      */
     public function index(): Response {
-        return $this->render('home/index.html.twig', ['title' => 'Symprowire - ProcessWire meets Symfony']);
+        $title = $this->wire('pages')->get(1)->title;
+        return $this->render('home/index.html.twig', ['title' => $title]);
     }
 }
