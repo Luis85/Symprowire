@@ -15,7 +15,20 @@ class HomeController extends AbstractController
      * @throws WireException
      */
     public function index(): Response {
-        $title = $this->wire('pages')->get(1)->title;
-        return $this->render('home/index.html.twig', ['title' => $title]);
+
+        $title = $this->pages->get(1)->title;
+
+        $vars = [
+            'page' => $this->page,
+            'pages' => $this->pages,
+            'input' => $this->input,
+            'session' => $this->session,
+            'modules' => $this->modules,
+        ];
+
+        return $this->render('home/index.html.twig', [
+            'title' => $title,
+            'vars' => $vars,
+        ]);
     }
 }

@@ -5,4 +5,11 @@
 {% block content %}
     <h1>{{ title }}</h1>
     <p class="important">Welcome to your awesome homepage.</p>
+    <hr />
+    <p>I have knowledge about the following Modules:</p>
+    <ul>
+        {% for var in vars['modules'] %}
+            <li>{{ var }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
