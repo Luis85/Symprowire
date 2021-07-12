@@ -1,7 +1,7 @@
 <?php namespace ProcessWire;
 
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Runtime\SymfonyRuntime;
 
 class Symprowire extends Wire implements Module {
 
@@ -9,7 +9,7 @@ class Symprowire extends Wire implements Module {
     {
         return [
             'title' => 'Symprowire - A Processwire Request/Response extension',
-            'description' => 'A base module integrating Symfony http-foundation and Twig to use Processwire in a MVC approach.',
+            'description' => 'A module integrating Symfony 5.3 with Twig to use Processwire in a MVC approach.',
             'version' => 1,
             'summary' => 'Symprowire - Base Framework Module.',
             'href' => 'https://github.com/Luis85/symprowire',
@@ -31,31 +31,19 @@ class Symprowire extends Wire implements Module {
         parent::wired();
     }
 
-    public function init() {
+    public function init()
+    {
         $this->addHookBefore('TemplateFile::render', function($event) {
             $event->replace = true;
             $this->executeSymprowire();
         });
     }
 
-    /**
-     * @throws WireException
-     */
-    protected function executeSymprowire() {
-        $paths = wire('config')->paths;
-
-        require_once $paths->root.'vendor/autoload.php';
-
-        $container = include __DIR__.'/lib/container.php';
-        $routes = include __DIR__.'/lib/app.php';
-
-        $container->setParameter('debug', $this->wire('config')->debug);
-        $container->setParameter('routes', $routes);
-
-        $request = Request::createFromGlobals();
-        $response = $container->get('framework')->handle($request);
-
-        $response->send();
+    protected function executeSymprowire()
+    {
+        $fileName = __DIR__.'/public/index.php';
+        $_SERVER['SCRIPT_FILENAME'] = $fileName;
+        require_once __DIR__.'/vendor/autoload_runtime.php';
     }
 
     /**
@@ -81,7 +69,7 @@ class Symprowire extends Wire implements Module {
         $t->slashPageNum = -1;
         $t->slashUrlSegments = -1;
         $t->save();
-        $this->message('Created Template frontcontroller');
+        $this->message('Added Template frontcontroller');
 
         /* assign the frontcontroller to Home */
         $home = $this->wire('pages')->get(1);
@@ -92,7 +80,7 @@ class Symprowire extends Wire implements Module {
         $files = $this->wire('files');
         $path = $this->wire('config')->paths->site;
 
-        $folders = ['src/Controller/', 'src/Entity/', 'src/Service/', 'src/Repository/', 'src/Interface/', 'src/Trait/', 'cache', 'templates/twig/'];
+        $folders = ['templates/twig/'];
         foreach($folders as $folder) {
             $files->mkdir($path.$folder);
             $this->message('created Folder: '. $path.$folder);
@@ -122,7 +110,7 @@ class Symprowire extends Wire implements Module {
             $this->wire('fieldgroups')->delete($fg);
         }
         // we do not remove any folders created by symprowire, to not delete any user created files
-        $this->message('Symprowire Module removed. Folder structure remains intact.');
+        $this->message('Symprowire Module removed from Database. Folder structure remains intact.');
     }
 
 }

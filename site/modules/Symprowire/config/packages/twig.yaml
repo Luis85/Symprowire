@@ -1,0 +1,9 @@
+twig:
+    default_path: '%app.paths.templates%'
+    form_themes:
+        - 'form/layout.html.twig'
+        - 'form/fields.html.twig'
+        -
+when@test:
+    twig:
+        strict_variables: true
