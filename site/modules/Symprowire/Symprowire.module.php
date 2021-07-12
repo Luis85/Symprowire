@@ -1,8 +1,6 @@
 <?php namespace ProcessWire;
 
 
-use Symfony\Component\Runtime\SymfonyRuntime;
-
 class Symprowire extends Wire implements Module {
 
     public static function getModuleInfo(): array
