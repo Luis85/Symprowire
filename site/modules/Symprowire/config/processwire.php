@@ -12,8 +12,11 @@ return static function (ContainerConfigurator $container) {
     $container->parameters()->set('app.paths.site', $paths->site);
     $container->parameters()->set('app.paths.modules', $paths->modules);
     $container->parameters()->set('app.paths.assets', $paths->assets);
-    $container->parameters()->set('app.paths.templates', $paths->templates.'twig');
+    $container->parameters()->set('app.paths.templates', $paths->templates);
     $container->parameters()->set('app.debug', $config->debug);
     $container->parameters()->set('app.advanced', $config->advanced);
+
+    $container->parameters()->set('app.urls.assets', $config->urls->assets);
+    $container->parameters()->set('app.urls.templates', $config->urls->templates);
 
 };
