@@ -78,12 +78,12 @@ class Symprowire extends Wire implements Module {
 
         /* create our file structure */
         $files = $this->wire('files');
-        $path = $this->wire('config')->paths->site;
+        $path = $this->wire('config')->paths;
 
         $folders = ['templates/twig/'];
         foreach($folders as $folder) {
-            $files->mkdir($path.$folder);
-            $this->message('created Folder: '. $path.$folder);
+            $files->mkdir($path->site.$folder);
+            $this->message('created Folder: '. $path->site.$folder);
         }
         $this->message('Folder Structure created');
 
