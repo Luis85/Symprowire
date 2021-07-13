@@ -3,20 +3,23 @@
 namespace App\Controller;
 
 
-use App\Symprowire\AbstractController;
 use ProcessWire\WireException;
+use Symprowire\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symprowire\Repository\UserRepository;
 
 class HomeController extends AbstractController
 {
+
     /**
-     * @Route("/")
+     * @Route("/", name="app_home")
      * @throws WireException
      */
-    public function index(): Response {
+    public function index(UserRepository $users): Response {
 
-        $title = $this->pages->get(1)->title;
+        $title = $this->pages->getById(1)->title;
 
         $vars = [
             'page' => $this->page,
@@ -24,6 +27,7 @@ class HomeController extends AbstractController
             'input' => $this->input,
             'session' => $this->session,
             'modules' => $this->modules,
+            'users' => $users,
         ];
 
         return $this->render('home/index.html.twig', [
@@ -31,4 +35,5 @@ class HomeController extends AbstractController
             'vars' => $vars,
         ]);
     }
+
 }

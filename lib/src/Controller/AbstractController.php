@@ -1,8 +1,13 @@
 <?php
 
 
-namespace App\Symprowire;
+namespace Symprowire\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyController;
+
+use Symprowire\Interfaces\AbstractControllerInterface;
+use Symprowire\Repository\ModulesRepository;
+use Symprowire\Repository\PagesRepository;
 
 use ProcessWire\Wire;
 use ProcessWire\Config;
@@ -26,9 +31,10 @@ use ProcessWire\WireFileTools;
 use ProcessWire\WireHooks;
 use ProcessWire\WireInput;
 use ProcessWire\WireMailTools;
+
 use function ProcessWire\wire;
 
-abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+abstract class AbstractController extends SymfonyController implements AbstractControllerInterface
 {
     /**
      * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
@@ -51,13 +57,16 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
      */
     protected $page;
 
-    public function __construct() {
+    protected $user;
+
+    public function __construct(ModulesRepository $modulesRepository, PagesRepository $pagesRepository) {
 
         $this->input = wire('input');
         $this->session = wire('session');
         $this->page = wire('page');
-        $this->pages = wire('pages');
-        $this->modules = wire('modules');
+        $this->pages = $pagesRepository;
+        $this->modules = $modulesRepository;
+        $this->user = wire('user');
 
     }
 
