@@ -45,6 +45,7 @@
         "twig/markdown-extra": "^3.0"
     },
     "require-dev": {
+
         "symfony/browser-kit": "^5.3",
         "symfony/css-selector": "^5.3",
         "symfony/debug-bundle": "^5.3",
@@ -64,7 +65,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Symprowire\\": "lib/src/"
         }
     },
     "autoload-dev": {
