@@ -16,7 +16,8 @@ Symprowire is a PHP MVC Framework based on Symfony 5.3 using ProcessWire 3.x as 
 - YAML Configuration
 - Symfony Console and Console Commands
 - Symfony Webprofiler
-- Full ProcessWire Modules access inside your Controller
+- Full ProcessWire access inside your Controller and Services
+- Webpack Encore support
 
 ## Installation
 - Create a new ProcessWire 3.0.181 Installation using the Blank Profile
@@ -59,6 +60,25 @@ To create your own Services site/modules/symprowire/src is the place to add them
 This directory is watched by Symfony and will make your Services accessable for autowiring.
 
 You have to use the \App Namespace for your Services and Controllers. 
+
+## Webpack Encore
+To bundle your Frontend you can use symfony/webpack-encore.
+
+### Requirements
+- yarn
+- npm
+
+To activate Webpack Encore
+- `cd site/modules/symprowire`
+- `yarn install`
+- `yarn build`
+
+Build files will be put into site/modules/symprowire/public/build.
+Encore is preconfigured to serve his encore assets trough the public dir.
+
+All you have to do is add `{{ encore_entry_link_tags('app') }}` and `{{ encore_entry_script_tags('app') }}` to your twig template.
+
+For a working example check out site/modules/symprowire/lib/twig
 
 ## Namespaces
 
