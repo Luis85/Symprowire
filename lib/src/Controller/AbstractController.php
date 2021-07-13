@@ -5,6 +5,7 @@ namespace Symprowire\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyController;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symprowire\Interfaces\AbstractControllerInterface;
 use Symprowire\Repository\ModulesRepository;
 use Symprowire\Repository\PagesRepository;
@@ -77,5 +78,15 @@ abstract class AbstractController extends SymfonyController implements AbstractC
      */
     protected function wire(string $name) {
         return wire($name);
+    }
+
+    protected function render(string $view, array $parameters = [], $response = null): Response {
+
+        $vars = [
+            'user' => $this->user,
+            'session' => $this->session,
+        ];
+        $parameters = array_merge($vars, $parameters);
+        return parent::render($view, $parameters, $response);
     }
 }
