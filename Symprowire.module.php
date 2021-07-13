@@ -21,14 +21,6 @@ class Symprowire extends Wire implements Module {
         ];
     }
 
-    /**
-     * @throws WireException
-     */
-    public function wired() {
-        $this->wire('symprowire', $this);
-        parent::wired();
-    }
-
     public function init()
     {
         $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/public/index.php';
