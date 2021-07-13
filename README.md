@@ -23,6 +23,7 @@ Symprowire is a PHP MVC Framework based on Symfony 5.3 using ProcessWire 3.x as 
 - add Symprowire to site/modules 
 - `cd site/modules/symprowire`
 - `composer install`
+- after composer is finished, install the module via ProcessWire Admin
 
 ## Usage
 
