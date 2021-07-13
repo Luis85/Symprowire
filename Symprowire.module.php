@@ -8,7 +8,7 @@ class Symprowire extends Wire implements Module {
         return [
             'title' => 'Symprowire - A Processwire Request/Response extension',
             'description' => 'A module integrating Symfony 5.3 with Twig to use Processwire in a MVC approach.',
-            'version' => 10,
+            'version' => 20,
             'summary' => 'Symprowire - Base Framework Module.',
             'href' => 'https://github.com/Luis85/symprowire',
             'singular' => true,
