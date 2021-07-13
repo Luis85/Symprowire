@@ -1,5 +1,6 @@
 /public/build/fonts/glyphicons-*
 /public/build/images/glyphicons-*
+.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
