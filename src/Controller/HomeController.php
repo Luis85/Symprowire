@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 
-use ProcessWire\WireException;
 use Symprowire\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +13,9 @@ class HomeController extends AbstractController
 {
 
     /**
+     * This Route does have a corresponding Page and therefore $this->page is populated accordingly
+     *
      * @Route("/", name="app_home")
-     * @throws WireException
      */
     public function index(UserRepository $users): Response {
 
@@ -33,6 +33,20 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'title' => $title,
             'vars' => $vars,
+        ]);
+    }
+
+    /**
+     * This Route does not have a corresponding Page
+     * $this->page will return the HomePage
+     *
+     * @Route("/hello", name="app_hello")
+     */
+    public function hello(): Response {
+
+        return $this->render('home/hello.html.twig', [
+            'title' => 'Symprowire says',
+            'msg' => 'Hello '.$this->user->name,
         ]);
     }
 

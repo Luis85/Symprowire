@@ -4,11 +4,11 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <p class="important">Welcome to your awesome homepage.</p>
+    <p class="important">Welcome to your awesome Symprowire homepage.</p>
     <hr />
-    <p>I have knowledge about the following Modules:</p>
+    <p>I have knowledge about the following Vars:</p>
     <ul>
-        {% for var in vars['modules'] %}
+        {% for var in vars %}
             <li>{{ var }}</li>
         {% endfor %}
     </ul>
