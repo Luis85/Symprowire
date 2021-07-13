@@ -1,6 +1,6 @@
 # Symprowire - PHP MVC Framework for ProcessWire 3.x
 
-Symprowire is a PHP MVC Framework based on Symfony 5.3 using ProcessWire 3.x as DBAL.
+Symprowire is a PHP MVC Framework based on Symfony 5.3 using ProcessWire 3.x as DBAL and integrating ProcessWire Services and helpers.
 
 ## Requirements
 - PHP ^7.4
@@ -35,22 +35,25 @@ To create a new Controller just extend the Symprowire/AbstractController add a n
 ### The AbstractController 
 
 The AbstractController itself extends Symfony\Bundle\FrameworkBundle\Controller\AbstractController to give you Symonfy Helper functions
-In addition you will get the following ProcessWire Variables
-- $page
-- $pages (implemented as PagesRepository)
-- $input
-- $session
-- $modules (implemented as ModulesRepository)
-- $user 
 
-To use them in your Controller just call them like `$this->user` 
+In addition you will get the following ProcessWire Variables
+- `$page`
+- `$pages` (implemented as PagesRepository)
+- `$input`
+- `$session`
+- `$modules` (implemented as ModulesRepository)
+- `$user` 
+
+To use them in your Controller just call them like `$this->user`
+
 Symprowire Repositories and Services implement their own Interface to ease development.
 
 ### Services and Autowiring
 
 Symprowire Services will get autowired by Symfony and are thus available for DI. 
-You cann find Symprowire Interfaces and Services in site/modules/symprowire/lib 
-You should not edit these files as they are the core glue between Symfony and ProcessWire. 
+You can find Symprowire Interfaces and Services in site/modules/symprowire/lib.
+
+**You should not edit these files as they are the core glue between Symfony and ProcessWire.** 
 
 To create your own Services site/modules/symprowire/src is the place to add them. 
 This directory is watched by Symfony and will make your Services accessable for autowiring.
@@ -58,5 +61,7 @@ This directory is watched by Symfony and will make your Services accessable for 
 You have to use the \App Namespace for your Services and Controllers. 
 
 ## Namespaces
-\Symprowire - lib Namespace used for Module/Framework Services. Do not edit
-\App - userland
+
+\Symprowire - lib Namespace used for Module/Framework Services. **Do not edit**
+
+\App - Userland for your Controllers, Services, Repositories etc...
