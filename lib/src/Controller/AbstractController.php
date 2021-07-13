@@ -37,45 +37,42 @@ use function ProcessWire\wire;
 
 abstract class AbstractController extends SymfonyController implements AbstractControllerInterface
 {
-    /**
-     * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     */
-    protected $input;
-    /**
-     * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     */
-    protected $session;
-    /**
-     * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     */
-    protected $pages;
-    /**
-     * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     */
-    protected $modules;
-    /**
-     * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     */
-    protected $page;
 
+    protected $input;
+    protected $session;
+    protected $page;
     protected $user;
+    protected $sanitizer;
+    protected $log;
+    protected $urls;
+    protected $fields;
+    protected $database;
+    protected $templates;
+    protected $paths;
+
+    protected PagesRepository $pages;
+    protected ModulesRepository $modules;
 
     public function __construct(ModulesRepository $modulesRepository, PagesRepository $pagesRepository) {
 
-        $this->input = wire('input');
-        $this->session = wire('session');
         $this->page = wire('page');
+        $this->user = wire('user');
+        $this->urls = wire('urls');
+        $this->log = wire('log');
+        $this->input = wire('input');
+        $this->fields = wire('fields');
+        $this->session = wire('session');
+        $this->database = wire('database');
+        $this->sanitizer = wire('sanitizer');
+        $this->templates = wire('templates');
+
+        $this->paths = wire('config')->paths;
+
         $this->pages = $pagesRepository;
         $this->modules = $modulesRepository;
-        $this->user = wire('user');
 
     }
 
-    /**
-     *
-     * @return mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     * @var mixed|Config|Fields|Fieldtypes|Modules|Notices|Page|Pages|Permissions|ProcessWire|Roles|Sanitizer|Session|Templates|User|Users|Wire|WireDatabasePDO|WireDateTime|WireFileTools|WireHooks|WireInput|WireMailTools|string|null
-     */
     protected function wire(string $name) {
         return wire($name);
     }
@@ -84,6 +81,7 @@ abstract class AbstractController extends SymfonyController implements AbstractC
 
         $vars = [
             'user' => $this->user,
+            'page' => $this->page,
             'session' => $this->session,
         ];
         $parameters = array_merge($vars, $parameters);
