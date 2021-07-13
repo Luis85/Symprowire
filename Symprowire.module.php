@@ -37,10 +37,12 @@ class Symprowire extends Wire implements Module {
         });
     }
 
+    /**
+     * @throws WireException
+     */
     protected function executeSymprowire()
     {
-        $fileName = __DIR__.'/public/index.php';
-        $_SERVER['SCRIPT_FILENAME'] = $fileName;
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/public/index.php';
         require_once __DIR__.'/vendor/autoload_runtime.php';
     }
 
