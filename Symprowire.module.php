@@ -12,7 +12,7 @@ class Symprowire extends Wire implements Module {
             'summary' => 'Symprowire - Base Framework Module.',
             'href' => 'https://github.com/Luis85/symprowire',
             'singular' => true,
-            'autoload' => 'template=frontcontroller',
+            'autoload' => 'template!=admin',
             'icon' => 'flask',
             'requires' => [
                 'PHP>=7.4',
@@ -30,17 +30,6 @@ class Symprowire extends Wire implements Module {
     }
 
     public function init()
-    {
-        $this->addHookBefore('TemplateFile::render', function($event) {
-            $event->replace = true;
-            $this->executeSymprowire();
-        });
-    }
-
-    /**
-     * @throws WireException
-     */
-    protected function executeSymprowire()
     {
         $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/public/index.php';
         require_once __DIR__.'/vendor/autoload_runtime.php';
