@@ -1,5 +1,5 @@
 {
-    "name": "luis/symprowire",
+    "name": "symprowire/symprowire",
     "license": "MIT",
     "type": "project",
     "description": "Symprowire - a Symfony Bridge Module for ProcessWire",
@@ -17,6 +17,7 @@
     },
     "require": {
         "php": "^7.4",
+
         "composer/package-versions-deprecated": "^1.8",
         "erusev/parsedown": "^1.6",
         "sensio/framework-extra-bundle": "^6.1",
@@ -45,7 +46,6 @@
         "twig/markdown-extra": "^3.0"
     },
     "require-dev": {
-
         "symfony/browser-kit": "^5.3",
         "symfony/css-selector": "^5.3",
         "symfony/debug-bundle": "^5.3",
