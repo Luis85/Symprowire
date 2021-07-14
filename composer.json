@@ -1,12 +1,15 @@
 {
     "name": "symprowire/symprowire",
     "license": "MIT",
-    "type": "project",
-    "description": "Symprowire - a Symfony Bridge Module for ProcessWire",
+    "type": "pw-module",
+    "description": "Symprowire is a PHP MVC Framework based on Symfony 5.3 using ProcessWire 3.x as DBAL and integrating ProcessWire Services and helpers.",
+    "homepage": "https://github.com/Luis85/symprowire",
+    "keywords": [ "framework", "processwire", "symfony" ],
     "authors": [
         {
             "name": "Luis Mendez",
-            "email": "hallo@luis-mendez.de"
+            "email": "hallo@luis-mendez.de",
+            "homepage": "https://github.com/Luis85/symprowire"
         }
     ],
     "minimum-stability": "stable",
