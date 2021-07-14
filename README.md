@@ -4,15 +4,17 @@ Symprowire is a PHP MVC Framework based and build on Symfony 5.3 using ProcessWi
 
 It acts as a Drop-In Replacement Module to handle the Request/Response outside the ProcessWire Admin. 
 
-Main Goal is to give an easy possibility to follow an MVC Approach during development with ProcessWire and open up the available eco-system.
+Symprowire's main Goal is to give an easy possibility to follow an MVC Approach during development with ProcessWire and open up the available eco-system.
 
 ## Requirements
+
 - PHP ^7.4
 - Fresh ProcessWire ^3.0.181 with a Blank Profile 
 - Composer 2 (v1 should work, not recommended)
 - The usual Symfony Requirements
 
 ## Features
+
 - Twig
 - Dependency Injection
 - Monolog for Symprowire
@@ -24,11 +26,27 @@ Main Goal is to give an easy possibility to follow an MVC Approach during develo
 - Webpack Encore support
 
 ## Installation
+
 - Create a new ProcessWire 3.0.181 Installation using the Blank Profile
 - add Symprowire to `site/modules` 
 - `cd site/modules/symprowire`
 - `composer install`
-- after composer is finished, install the module via ProcessWire Admin
+- install the module via ProcessWire Admin
+
+> Heads up
+> 
+> To use Webpack Encore follow the 'Webpack Encore' section further down this Document  
+
+### The Installer
+
+Symprowire ships with a custom Installer Class to execute functions after Symprowire's Installation. The Installer is a great place to create a barbone application structure inside ProcessWire. Creating Templates, Pages, Fields etc.
+
+You can find the Installer in `site/modules/symprowire/src/Installer.php`
+
+`Installer->run()` will be executed automatically on Module Installation.
+> Heads up
+> 
+> The $installer->run() method is called by Symprowire directly after internal installation but still inside ProcessWire's Module installation process
 
 ## Usage
 
@@ -55,28 +73,28 @@ In addition you will get the following ProcessWire Variables inside your Control
 - `$this->paths = wire('config')->paths;`
 
 - `$this->logger = ProcessWireLoggerService;` ($log implemented as Service)
-- `$this->pages = $pagesRepository;` (implemented as Repository)
-- `$this->modules = $modulesRepository;` (implemented as Repository)
+- `$this->pages = $pagesRepository;` ($pages implemented as Repository)
+- `$this->modules = $modulesRepository;` ($modules implemented as Repository)
 
 **To gain full access to ProcessWire use** `$this->wire('name')`
 
-You should try to wrap Collections into own Repositories based on the Template you use.
+>You should try to wrap Collections into own Repositories based on the Template you use.
 
-You should try to wrap Modules into own Services to make them accessable for DependencyInjection and easier Testing.
+>You should try to wrap Modules into own Services to make them accessable for DependencyInjection and easier Testing.
 
-Symprowire Repositories and Services implement their own Interfaces. You should follow this path as it would make testing your Application a lot easier in the long run.
+>Symprowire Repositories and Services implement their own Interfaces. You should follow this path as it would make testing your Application a lot easier in the long run.
 
 ### Services and Autowiring
 
 Symprowire Services will get autowired by Symfony and are thus available for DI. 
 You can find Symprowire Interfaces and Services in `site/modules/symprowire/lib`.
 
-**You should not edit these files as they are the core glue between Symfony and ProcessWire.** 
+>**You should not edit these files as they are the core glue between Symfony and ProcessWire.** 
 
 To create your own Services `site/modules/symprowire/src` is the place to add them. 
 This directory is watched by Symfony and will make your Services accessable for autowiring.
 
-You have to use the `\App` Namespace for your Services and Controllers. 
+>You have to use the `\App` Namespace for your Services and Controllers. 
 
 ## Webpack Encore
 To bundle your Frontend you can use `symfony/webpack-encore`.

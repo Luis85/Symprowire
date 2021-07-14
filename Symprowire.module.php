@@ -1,6 +1,8 @@
 <?php namespace ProcessWire;
 
 
+use App\Installer;
+
 class Symprowire extends Wire implements Module {
 
     public static function getModuleInfo(): array
@@ -8,7 +10,7 @@ class Symprowire extends Wire implements Module {
         return [
             'title' => 'Symprowire - MVC Framwork for ProcessWire',
             'description' => 'A module integrating Symfony 5.3 with Twig to use Processwire in a MVC approach.',
-            'version' => 4,
+            'version' => 41,
             'summary' => 'Symprowire - Base Framework Module.',
             'href' => 'https://github.com/Luis85/symprowire',
             'singular' => true,
@@ -72,6 +74,12 @@ class Symprowire extends Wire implements Module {
         /* put a dummy template file into our templates folder to let us decide if we want to serve the request trough symprowire */
         file_put_contents($path->templates."frontcontroller.php", "<?php namespace ProcessWire;");
         $this->message('Template View File added');
+
+        $this->message('Calling custom installer');
+        $installer = new Installer();
+        $installer->run();
+        $this->message('Custom installer executed');
+
     }
 
     /**
