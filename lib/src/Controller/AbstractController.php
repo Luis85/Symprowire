@@ -7,9 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyContr
 
 use Symfony\Component\HttpFoundation\Response;
 use Symprowire\Interfaces\AbstractControllerInterface;
+use Symprowire\Interfaces\ModulesRepositoryInterface;
+use Symprowire\Interfaces\PagesRepositoryInterface;
 use Symprowire\Interfaces\ProcessWireLoggerServiceInterface;
-use Symprowire\Repository\ModulesRepository;
-use Symprowire\Repository\PagesRepository;
 
 use ProcessWire\Wire;
 use ProcessWire\Config;
@@ -52,13 +52,13 @@ abstract class AbstractController extends SymfonyController implements AbstractC
 
     protected ProcessWireLoggerServiceInterface $logger;
 
-    protected PagesRepository $pages;
-    protected ModulesRepository $modules;
+    protected PagesRepositoryInterface $pages;
+    protected ModulesRepositoryInterface $modules;
 
     public function __construct(
         ProcessWireLoggerServiceInterface $loggerService,
-        ModulesRepository $modulesRepository,
-        PagesRepository $pagesRepository
+        ModulesRepositoryInterface $modulesRepository,
+        PagesRepositoryInterface $pagesRepository
     ) {
 
         $this->page = wire('page');
