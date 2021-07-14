@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyContr
 
 use Symfony\Component\HttpFoundation\Response;
 use Symprowire\Interfaces\AbstractControllerInterface;
+use Symprowire\Interfaces\ProcessWireLoggerServiceInterface;
 use Symprowire\Repository\ModulesRepository;
 use Symprowire\Repository\PagesRepository;
 
@@ -43,28 +44,34 @@ abstract class AbstractController extends SymfonyController implements AbstractC
     protected $page;
     protected $user;
     protected $sanitizer;
-    protected $log;
     protected $urls;
     protected $fields;
     protected $database;
     protected $templates;
     protected $paths;
 
+    protected ProcessWireLoggerServiceInterface $logger;
+
     protected PagesRepository $pages;
     protected ModulesRepository $modules;
 
-    public function __construct(ModulesRepository $modulesRepository, PagesRepository $pagesRepository) {
+    public function __construct(
+        ProcessWireLoggerServiceInterface $loggerService,
+        ModulesRepository $modulesRepository,
+        PagesRepository $pagesRepository
+    ) {
 
         $this->page = wire('page');
         $this->user = wire('user');
         $this->urls = wire('urls');
-        $this->log = wire('log');
         $this->input = wire('input');
         $this->fields = wire('fields');
         $this->session = wire('session');
         $this->database = wire('database');
         $this->sanitizer = wire('sanitizer');
         $this->templates = wire('templates');
+
+        $this->logger = $loggerService;
 
         $this->paths = wire('config')->paths;
 
@@ -73,10 +80,12 @@ abstract class AbstractController extends SymfonyController implements AbstractC
 
     }
 
+    // provide direct access to ProcessWire inside the Controller
     protected function wire(string $name) {
         return wire($name);
     }
 
+    // we extend the render() function to create ProcessWire known Globals
     protected function render(string $view, array $parameters = [], $response = null): Response {
 
         $vars = [
@@ -85,6 +94,7 @@ abstract class AbstractController extends SymfonyController implements AbstractC
             'session' => $this->session,
         ];
         $parameters = array_merge($vars, $parameters);
+
         return parent::render($view, $parameters, $response);
     }
 }
