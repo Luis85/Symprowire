@@ -1,17 +1,21 @@
 # Symprowire - PHP MVC Framework for ProcessWire 3.x
 
-Symprowire is a PHP MVC Framework based on Symfony 5.3 using ProcessWire 3.x as DBAL and integrating ProcessWire Services and helpers.
+Symprowire is a PHP MVC Framework based and build on Symfony 5.3 using ProcessWire 3.x as DBAL and Service-Provider.
+
+It acts as a Drop-In Replacement Module to handle the Request/Response outside the ProcessWire Admin. 
+
+Main Goal is to give an easy possibility to follow an MVC Approach during development with ProcessWire and open up the available eco-system.
 
 ## Requirements
 - PHP ^7.4
-- ProcessWire ^3.0.181 with a Blank Profile 
-- Composer
+- Fresh ProcessWire ^3.0.181 with a Blank Profile 
+- Composer 2 (v1 should work, not recommended)
 - The usual Symfony Requirements
 
 ## Features
 - Twig
 - Dependency Injection
-- Monolog
+- Monolog for Symprowire
 - Support for .env
 - YAML Configuration
 - Symfony Console and Console Commands
@@ -42,7 +46,6 @@ In addition you will get the following ProcessWire Variables inside your Control
 - `$this->page = wire('page');`
 - `$this->user = wire('user');`
 - `$this->urls = wire('urls');`
-- `$this->log = wire('log');`
 - `$this->input = wire('input');`
 - `$this->fields = wire('fields');`
 - `$this->session = wire('session');`
@@ -51,13 +54,17 @@ In addition you will get the following ProcessWire Variables inside your Control
 - `$this->templates = wire('templates');`
 - `$this->paths = wire('config')->paths;`
 
+- `$this->logger = ProcessWireLoggerService;` ($log implemented as Service)
 - `$this->pages = $pagesRepository;` (implemented as Repository)
 - `$this->modules = $modulesRepository;` (implemented as Repository)
 
+**To gain full access to ProcessWire use** `$this->wire('name')`
 
-To use them in your Controller just call them like `$this->user`
+You should try to wrap Collections into own Repositories based on the Template you use.
 
-Symprowire Repositories and Services implement their own Interface to ease development.
+You should try to wrap Modules into own Services to make them accessable for DependencyInjection and easier Testing.
+
+Symprowire Repositories and Services implement their own Interfaces. You should follow this path as it would make testing your Application a lot easier in the long run.
 
 ### Services and Autowiring
 
