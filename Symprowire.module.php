@@ -23,6 +23,7 @@ class Symprowire extends Wire implements Module {
 
     public function init()
     {
+        // change the Script Filename to keep the request inside our module
         $_SERVER['SCRIPT_FILENAME'] = __DIR__.'/public/index.php';
         require_once __DIR__.'/vendor/autoload_runtime.php';
     }
