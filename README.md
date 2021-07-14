@@ -103,3 +103,4 @@ For a working example check out `site/modules/symprowire/lib/twig`
 - ModulesRepository
 
 - ProcessWireMailerService
+- ProcessWireLoggerService
