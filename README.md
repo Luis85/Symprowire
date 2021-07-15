@@ -10,6 +10,7 @@ Symprowire's main Goal is to give an easy possibility to follow an MVC Approach 
 - check out the Wiki: https://github.com/Luis85/symprowire/wiki
 - check out the Blog Tutorial: https://github.com/Luis85/symprowire/wiki/Symprowire-Blog-Tutorial
 - check out the Demo Application: https://github.com/Luis85/symprowire-demo
+- check out the Project Board for v1: https://github.com/Luis85/symprowire/projects/1
 
 ## Requirements
 
