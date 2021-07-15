@@ -3,12 +3,12 @@
 
 namespace Symprowire\Interfaces;
 
-use ProcessWire\Pages;
+use ProcessWire\PageArray;
 use ProcessWire\Page;
 
 interface PagesRepositoryInterface
 {
-    public function find(string $selector): Pages;
+    public function find(string $selector): PageArray;
 
     public function getById(int $id): Page;
 

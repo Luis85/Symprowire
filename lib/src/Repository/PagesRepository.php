@@ -6,12 +6,12 @@ namespace Symprowire\Repository;
 
 use Symprowire\Interfaces\PagesRepositoryInterface;
 
-use ProcessWire\Pages;
+use ProcessWire\PageArray;
 use ProcessWire\Page;
 
 class PagesRepository extends AbstractRepository implements PagesRepositoryInterface
 {
-    public function find(string $selector): Pages {
+    public function find(string $selector): PageArray {
         return $this->pages->findMany($selector);
     }
 
