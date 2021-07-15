@@ -4,7 +4,7 @@
 namespace Symprowire\Interfaces;
 
 use ProcessWire\User;
-use Processwire\Users;
+use Processwire\PageArray;
 
 interface UserRepositoryInterface
 {
@@ -12,5 +12,5 @@ interface UserRepositoryInterface
 
     public function getById(int $id): User;
 
-    public function find(string $selector): Users;
+    public function find(string $selector): PageArray;
 }

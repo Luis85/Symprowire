@@ -5,7 +5,7 @@ namespace Symprowire\Repository;
 
 use Symprowire\Interfaces\UserRepositoryInterface;
 use Processwire\User;
-use Processwire\Users;
+use Processwire\PageArray;
 use ProcessWire\Wire;
 
 class UserRepository extends Wire implements UserRepositoryInterface
@@ -20,11 +20,15 @@ class UserRepository extends Wire implements UserRepositoryInterface
         return $this->users->get('email='.$email);
     }
 
+    public function get(string $selector): User {
+        return $this->users->get($selector);
+    }
+
     public function getById(int $id): User {
         return $this->users->get($id);
     }
 
-    public function find(string $selector): Users {
+    public function find(string $selector): PageArray {
         return $this->users->findMany($selector);
     }
 }
