@@ -6,6 +6,11 @@ It acts as a Drop-In Replacement Module to handle the Request/Response outside t
 
 Symprowire's main Goal is to give an easy possibility to follow an MVC Approach during development with ProcessWire and open up the available eco-system.
 
+**To learn more about Symprowire**
+- check out the Wiki: https://github.com/Luis85/symprowire/wiki
+- check out the Blog Tutorial: https://github.com/Luis85/symprowire/wiki/Symprowire-Blog-Tutorial
+- check out the Demo Application: https://github.com/Luis85/symprowire-demo
+
 ## Requirements
 
 - PHP ^7.4
