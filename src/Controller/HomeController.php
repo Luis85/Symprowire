@@ -30,10 +30,10 @@ class HomeController extends AbstractController
         // $user, $page and $session are automatically provided to Twig
         // Be carefull with using $this->page as it might not give you the page you are looking for
         $vars = [
-            'pages' => $this->pages,
-            'input' => $this->input,
-            'modules' => $this->modules,
             'users' => $users,
+            'input' => $this->input,
+            'pages' => $this->pages,
+            'modules' => $this->modules,
         ];
         // Twigs default path for Templates to look at is site/templates/twig
         // as fallback Symprowire ships with a twig-directory in lib/twig to serve a fresh installed Project
