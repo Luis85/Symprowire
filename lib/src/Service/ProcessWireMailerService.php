@@ -5,19 +5,19 @@ namespace Symprowire\Service;
 
 
 use ErrorException;
-use ProcessWire\Wire;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\RawMessage;
 use Symprowire\Interfaces\ProcessWireMailerServiceInterface;
+use Symprowire\Interfaces\ProcessWireServiceInterface;
 
-class ProcessWireMailerService extends Wire implements ProcessWireMailerServiceInterface
+class ProcessWireMailerService implements ProcessWireMailerServiceInterface
 {
     private $mailer;
 
     protected string $subject;
 
-    public function __construct() {
-        $this->mailer = wire('mail');
+    public function __construct(ProcessWireServiceInterface $processWire) {
+        $this->mailer = $processWire->get('mail');
     }
 
     public function setSubject(string $subject) {
