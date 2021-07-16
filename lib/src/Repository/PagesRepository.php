@@ -9,7 +9,7 @@ use Symprowire\Interfaces\PagesRepositoryInterface;
 use ProcessWire\PageArray;
 use ProcessWire\Page;
 
-class PagesRepository extends AbstractRepository implements PagesRepositoryInterface
+class PagesRepository extends AbstractPagesRepository implements PagesRepositoryInterface
 {
     public function find(string $selector): PageArray {
         return $this->pages->findMany($selector);
