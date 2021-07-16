@@ -4,85 +4,63 @@
 namespace Symprowire\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyController;
-
 use Symfony\Component\HttpFoundation\Response;
+
 use Symprowire\Interfaces\AbstractControllerInterface;
 use Symprowire\Interfaces\ModulesRepositoryInterface;
 use Symprowire\Interfaces\PagesRepositoryInterface;
 use Symprowire\Interfaces\ProcessWireLoggerServiceInterface;
-
-use ProcessWire\Wire;
-use ProcessWire\Config;
-use ProcessWire\Fields;
-use ProcessWire\Fieldtypes;
-use ProcessWire\Modules;
-use ProcessWire\Notices;
-use ProcessWire\Page;
-use ProcessWire\Pages;
-use ProcessWire\Permissions;
-use ProcessWire\ProcessWire;
-use ProcessWire\Roles;
-use ProcessWire\Sanitizer;
-use ProcessWire\Session;
-use ProcessWire\Templates;
-use ProcessWire\User;
-use ProcessWire\Users;
-use ProcessWire\WireDatabasePDO;
-use ProcessWire\WireDateTime;
-use ProcessWire\WireFileTools;
-use ProcessWire\WireHooks;
-use ProcessWire\WireInput;
-use ProcessWire\WireMailTools;
-
-use function ProcessWire\wire;
+use Symprowire\Interfaces\ProcessWireServiceInterface;
 
 abstract class AbstractController extends SymfonyController implements AbstractControllerInterface
 {
 
-    protected $input;
-    protected $session;
     protected $page;
     protected $user;
-    protected $sanitizer;
     protected $urls;
+    protected $input;
+    protected $paths;
     protected $fields;
+    protected $session;
     protected $database;
     protected $templates;
-    protected $paths;
-
-    protected ProcessWireLoggerServiceInterface $logger;
+    protected $sanitizer;
 
     protected PagesRepositoryInterface $pages;
     protected ModulesRepositoryInterface $modules;
 
+    private ProcessWireServiceInterface $processWire;
+    protected ProcessWireLoggerServiceInterface $logger;
+
     public function __construct(
+        ProcessWireServiceInterface $processWire,
         ProcessWireLoggerServiceInterface $loggerService,
         ModulesRepositoryInterface $modulesRepository,
         PagesRepositoryInterface $pagesRepository
     ) {
 
-        $this->page = wire('page');
-        $this->user = wire('user');
-        $this->urls = wire('urls');
-        $this->input = wire('input');
-        $this->fields = wire('fields');
-        $this->session = wire('session');
-        $this->database = wire('database');
-        $this->sanitizer = wire('sanitizer');
-        $this->templates = wire('templates');
-
-        $this->logger = $loggerService;
-
-        $this->paths = wire('config')->paths;
-
         $this->pages = $pagesRepository;
+        $this->logger = $loggerService;
         $this->modules = $modulesRepository;
+        $this->processWire = $processWire;
 
+        $this->page = $this->processWire->get('page');
+        $this->user = $this->processWire->get('user');
+        $this->urls = $this->processWire->get('urls');
+        $this->input = $this->processWire->get('input');
+        $this->fields = $this->processWire->get('fields');
+        $this->session = $this->processWire->get('session');
+        $this->database = $this->processWire->get('database');
+        $this->sanitizer = $this->processWire->get('sanitizer');
+        $this->templates = $this->processWire->get('templates');
+
+        $this->paths = $this->processWire->get('config')->paths;
+        $this->urls = $this->processWire->get('config')->urls;
     }
 
     // provide direct access to ProcessWire inside the Controller
     protected function wire(string $name) {
-        return wire($name);
+        return $this->processWire->get($name);
     }
 
     // we extend the render() function to create ProcessWire known Globals
@@ -90,7 +68,6 @@ abstract class AbstractController extends SymfonyController implements AbstractC
 
         $vars = [
             'user' => $this->user,
-            'page' => $this->page,
             'session' => $this->session,
         ];
         $parameters = array_merge($vars, $parameters);
