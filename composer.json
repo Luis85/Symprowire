@@ -1,7 +1,7 @@
 {
     "name": "symprowire/symprowire",
     "license": "MIT",
-    "version" : "0.6.0",
+    "version" : "0.7.0",
     "type": "pw-module",
     "description": "Symprowire is a PHP MVC Framework based and built on Symfony, using the ProcessWire CMS as DBAL and Service Provider.",
     "homepage": "https://github.com/Luis85/symprowire",

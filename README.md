@@ -47,12 +47,12 @@ Symprowire's main Goal is to give an easy path to follow an MVC Approach during 
 
 Symprowire ships with a custom Installer Class to execute functions after Symprowire's Installation. The Installer is a great place to create a barbone application structure inside ProcessWire. Creating Templates, Pages, Fields etc.
 
-You can find the Installer in `site/modules/symprowire/src/Installer.php`
+You can find the Installer in `site/modules/symprowire/Installer.php`
 
 `Installer->run()` will be executed automatically on Module Installation.
 > Heads up
 > 
-> The $installer->run() method is called by Symprowire directly after internal installation but still inside ProcessWire's Module installation process
+> The $installer->run() method is called by Symprowire directly after internal installation but still inside ProcessWire's Module installation process. You do not have access to Symprowire Internals at this point.
 
 ## Usage
 
