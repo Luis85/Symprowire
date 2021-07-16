@@ -1,10 +1,10 @@
 # Symprowire - PHP MVC Framework for ProcessWire 3.x
 
-Symprowire is a PHP MVC Framework based and build on Symfony 5.3 using ProcessWire 3.x as DBAL and Service-Provider.
+Symprowire is a PHP MVC Framework based and built on Symfony using ProcessWire 3.x as DBAL and Service-Provider.
 
 It acts as a Drop-In Replacement Module to handle the Request/Response outside the ProcessWire Admin. 
 
-Symprowire's main Goal is to give an easy possibility to follow an MVC Approach during development with ProcessWire and open up the available eco-system.
+Symprowire's main Goal is to give an easy path to follow an MVC Approach during development with ProcessWire and open up the available eco-system.
 
 **To learn more about Symprowire**
 - check out the Wiki: https://github.com/Luis85/symprowire/wiki
@@ -34,8 +34,8 @@ Symprowire's main Goal is to give an easy possibility to follow an MVC Approach 
 ## Installation
 
 - Create a new ProcessWire 3.0.181 Installation using the Blank Profile
-- add Symprowire to `site/modules` 
-- `cd site/modules/symprowire`
+- Copy Symprowire to `site/modules` 
+- Open up a Terminal and `cd site/modules/symprowire`
 - `composer install`
 - install the module via ProcessWire Admin
 
@@ -77,12 +77,13 @@ In addition you will get the following ProcessWire Variables inside your Control
 - `$this->sanitizer = wire('sanitizer');`
 - `$this->templates = wire('templates');`
 - `$this->paths = wire('config')->paths;`
+- `$this->urls = wire('config')->urls;`
 
 - `$this->logger = ProcessWireLoggerService;` ($log implemented as Service)
 - `$this->pages = $pagesRepository;` ($pages implemented as Repository)
 - `$this->modules = $modulesRepository;` ($modules implemented as Repository)
 
-**To gain full access to ProcessWire use** `$this->wire('name')`
+**To gain full access to ProcessWire use** `$this->wire($name)` **inside your Controller**
 
 >You should try to wrap Collections into own Repositories based on the Template you use.
 
@@ -133,5 +134,6 @@ For a working example check out `site/modules/symprowire/lib/twig`
 - UserRepository
 - ModulesRepository
 
+- ProcessWireService // The main Service to interact with ProcessWire Data
 - ProcessWireMailerService
 - ProcessWireLoggerService
