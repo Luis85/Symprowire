@@ -7,16 +7,24 @@
 
 namespace App;
 
-use ProcessWire\Wire;
 use Symprowire\Interfaces\InstallerInterface;
+use Symprowire\Interfaces\ProcessWireServiceInterface;
 
-class Installer extends Wire implements InstallerInterface
+class Installer implements InstallerInterface
 {
+    private ProcessWireServiceInterface $processWire;
+
+    // make ProcessWire available as a Service
+    public function __construct(ProcessWireServiceInterface $processWire) {
+        $this->processWire = $processWire;
+    }
     /*
-     *  the run() method is called by Symprowire directly after internal installation but still inside ProcessWire's Module installation process
+     * The run() method is called by Symprowire directly after internal installation but still inside ProcessWire's Module installation process
+     * We use ProcessWire's own logger instead of a Service, due to the Environment the Installer is called.
      */
     public function run(): bool {
-
+        $logger = $this->processWire->get('log');
+        $logger->message('Symprowire Installed');
         return true;
     }
 }
