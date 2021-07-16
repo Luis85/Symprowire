@@ -5,11 +5,21 @@ namespace Symprowire\Repository;
 
 
 use Symprowire\Interfaces\ModulesRepositoryInterface;
-use ProcessWire\Wire;
+use Symprowire\Interfaces\ProcessWireServiceInterface;
 
-class ModulesRepository extends Wire implements ModulesRepositoryInterface
+class ModulesRepository implements ModulesRepositoryInterface
 {
+    protected $processWire;
+
+    public function __construct(ProcessWireServiceInterface $processWire) {
+        $this->processWire = $processWire;
+    }
+
     public function get(string $name) {
-        return $this->wire('modules')->get($name);
+        return $this->processWire->get('modules')->get($name);
+    }
+
+    public function __toString(): string {
+        return get_class($this);
     }
 }
