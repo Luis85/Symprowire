@@ -6,14 +6,14 @@ namespace Symprowire\Service;
 
 use Symprowire\Interfaces\ProcessWireLoggerServiceInterface;
 
-use function ProcessWire\wire;
+use Symprowire\Interfaces\ProcessWireServiceInterface;
 
 class ProcessWireLoggerService implements ProcessWireLoggerServiceInterface
 {
     private $logger;
 
-    public function __construct() {
-        $this->logger = wire('log');
+    public function __construct(ProcessWireServiceInterface $processWire ) {
+        $this->logger = $processWire->get('log');
     }
 
     public function message(string $text)
@@ -58,7 +58,7 @@ class ProcessWireLoggerService implements ProcessWireLoggerServiceInterface
 
     public function log($level, $message, array $context = array())
     {
-        $this->logger->save('log', $message);
+        $this->logger->save('log-'.$level, $message);
     }
 
     public function error($message, array $context = array())
