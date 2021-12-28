@@ -4,8 +4,7 @@ a PHP MVC Framework for ProcessWire
 ## How does it work?
 
 Symprowire offers a structured way to render your ProcessWire files and compose your data.
-The framework brings the VC from the MVC pattern to ProcessWire which brings the M.
-To do so, Symprowire implements the Symfony/HttpFoundation and handles the template rendering in a Request - Process - Response workflow.
+Symprowire implements the Symfony/HttpFoundation and handles the template rendering in a Request - Process - Response workflow.
 This extends Symprowire driven templates with the following features
 
 - Twig
@@ -14,6 +13,13 @@ This extends Symprowire driven templates with the following features
 
 Symprowire integrates fully with ProcessWire and does not alter the Core in any way.
 To use Symprowire, even in your existing sites, you just have to copy the controller template file.
+
+### Symprowire Routing - Template matching
+
+Symprowire will generate his routing based on the available ProcessWire Templates. 
+The runtime scans every Template for the alternative Templatefile "controller". 
+This will add a /$template->name route to the RouteCollection which will always resolve to a Controller::index action.
+To add new Views to your Template you either provide a _sympro=$method GET Parameter to your URL or you use Route Annotations.
 
 ## Requirements
 
