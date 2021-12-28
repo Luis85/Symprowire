@@ -4,7 +4,6 @@ namespace Symprowire\Engine;
 
 use JetBrains\PhpStorm\Pure;
 use ProcessWire\ProcessWire;
-use ProcessWire\WireException;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;

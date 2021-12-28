@@ -6,15 +6,13 @@
  */
 use Symprowire\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use ProcessWire\ProcessWire;
 
 if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
     throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
 }
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
-$wire = new ProcessWire('../');
-return function (array $context) use($wire) {
-    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG'], $wire);
 
+return function () {
+    $kernel = new Kernel();
     return new Application($kernel);
 };

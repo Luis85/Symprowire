@@ -21,21 +21,20 @@ try {
     /**
      * lets create a Symprowire callable from the Symprowire/Kernel and create a new Runtime
      */
-    $wire = $this->wire;
-    $symprowire = function (array $context) use ($wire) {
-        return new Kernel($wire->config->debug ? 'dev' : 'prod', (bool) $wire->config->debug, $wire);
+    $symprowire = function (ProcessWire $wire) {
+        return new Kernel($wire);
     };
     $runtime = new SymprowireRuntime(['project_dir' => $this->config->paths->site]);
 
     /**
      * Resolve the SymprowireKernel, set env arguments, execute and get the created Response
      * we send our Kernel as callable to the runtime and execute the Kernel
-     * the called Symprowire/Runner will handle the callable Kernel and return the processed Kernel
+     * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
      */
     [$symprowire, $args] = $runtime->getResolver($symprowire)->resolve();
     $symprowire = $symprowire(...$args);
-    $runtime->getRunner($symprowire)->run();
-    $symprowire = $runtime->getExecutedRunner()->getKernel();
+    $runtime->getRunner($symprowire)->run(); // <-- this handles the Kernel
+    $symprowire = $runtime->getExecutedRunner()->getKernel(); // <-- this gives the processed Kernel
 
     /**
      * Dump the executed Kernel into Tracy for inspection and debugging
@@ -56,6 +55,7 @@ try {
  * Error Handling is now served by ProcessWire again
  */
 catch (Exception $exception) {
+    $this->log->error($exception->getMessage());
     if($this->config->debug) throw $exception;
     throw new Wire404Exception();
 }

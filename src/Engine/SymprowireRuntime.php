@@ -22,7 +22,7 @@ class SymprowireRuntime extends SymfonyRuntime
      * @throws SymprowireRequestFactoryException
      *
      * Create the Request and return the Kernel Runner
-     * unlike the symfony runtime we do not exit out after execution as our KernelRunner will atach the Response to the Kernel for the ProcessWire handshake
+     * unlike the Symfony runtime we do not exit out after execution as our KernelRunner will atach the Response to the Kernel for the ProcessWire handshake
      *
      */
     public function getRunner(?object $application): RunnerInterface

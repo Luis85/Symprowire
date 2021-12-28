@@ -15,31 +15,41 @@ use Symprowire\Interfaces\SymprowireKernelInterface;
  *
  * A magic place. A new Symprowire Application will be spawned.
  * Based on the Symfony HttpKernel we will get a Request, attach ProcessWire to the Kernel, handle the processing and return a Response to ProcessWire's page->render
- * @TODO Kernel Lifecycle Description
+ * TODO Kernel Lifecycle Description
  */
 class Kernel extends BaseKernel implements SymprowireKernelInterface
 {
     use MicroKernelTrait;
 
-    protected ?ProcessWire $wire;
+    public const ENGINE = 'Symprowire';
+    public const VERSION = '0.0.1';
 
     protected ?Request $request = null;
     protected ?Response $response = null;
     protected string $executionTime = '';
     protected ?int $executionTimeRaw = null;
+    protected ?ProcessWire $wire;
 
     /**
-     * @param string $environment
-     * @param bool $debug
+     *
+     * TODO to make the whole setup testable we have to make a ProcessWire Mock, otherwise every test against the business logic depends on the database
+     * Running the Kernel with a Runtime will give us a testable Interface but we are dependend on a ProcessWire instance
+     *
      * @param ProcessWire|null $wire
      *
-     * @TODO  to make the whole setup testable we have to make a ProcessWire Mock, otherwise every test against the business logic depends on the database
-     * Running the Kernel with a Runtime will give as a testable Interface
      */
-    public function __construct(string $environment, bool $debug, ProcessWire $wire = null)
+    public function __construct(ProcessWire $wire = null)
     {
-        $this->wire = $wire;
-        parent::__construct($environment, $debug);
+        if($wire) {
+            $this->wire = $wire;
+            $debug = $wire->config->debug;
+        } else {
+            $this->wire = null;
+            $debug = true;
+        }
+        $environment =  $debug ? 'dev' : 'prod';
+
+        parent::__construct($environment, (bool) $debug);
     }
 
     /**
@@ -48,13 +58,17 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * Inject ProcessWire in the DI Container if present
      * this will setup our configured synthetic service and make ProcessWire available in the System
      *
+     * TODO: In order to use the console we have to fill the synthetic pw service with a generic stdClass. This should be refactored I guess
+     *
      */
     protected function initializeContainer(): void
     {
         parent::initializeContainer();
-
-        if($this->wire) {
+        if($this->wire instanceof ProcessWire) {
             $this->container->set('processwire', $this->wire);
+        } else {
+            // TODO fix this...
+            $this->container->set('processwire', new \stdClass());
         }
     }
 
@@ -115,6 +129,22 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
             return ( (int) $this->executionTimeRaw / 1000000) . ' ms';
         }
         return '';
+    }
+
+    /**
+     *
+     * set Cache and Log Dir based on /site dir
+     * @return string
+     *
+     */
+    public function getLogDir(): string
+    {
+        return $this->getProjectDir().'/assets/symprowire/log';
+    }
+
+    public function getCacheDir(): string
+    {
+        return $this->getProjectDir().'/assets/symprowire/cache/'.$this->environment;
     }
 
 }
