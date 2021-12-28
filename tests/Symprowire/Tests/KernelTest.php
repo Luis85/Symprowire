@@ -13,7 +13,7 @@ use Symprowire\Kernel;
  * @testdox Running Kernel Tests
  *
  */
-class KernelBootTest extends KernelTestCase
+class KernelTest extends KernelTestCase
 {
 
     /**
@@ -31,7 +31,7 @@ class KernelBootTest extends KernelTestCase
     }
 
     /**
-     * @testdox Kernel is runnable
+     * @testdox Kernel is runnable and TestController responded
      * @throws SymprowireRequestFactoryException
      *
      * @covers \Symprowire\Kernel
@@ -39,7 +39,7 @@ class KernelBootTest extends KernelTestCase
      * @covers \Symprowire\Engine\SymprowireKernelRunner
      * @covers \Symprowire\Engine\SymprowireRuntime
      */
-    public function testRunKernel(): void
+    public function testRuntimeAndResponse(): void
     {
 
         $kernel = function () {
@@ -61,4 +61,5 @@ class KernelBootTest extends KernelTestCase
         // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
         restore_error_handler ();
     }
+
 }
