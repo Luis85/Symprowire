@@ -34,7 +34,7 @@
         "sort-packages": true
     },
     "autoload": {
-        "exclude-from-classmap": ["/Tests/", "/test/", "/tests/", "/vendor/processwire/**", "/vendor/processwire/*"],
+        "exclude-from-classmap": ["**/processwire/", "**/Tests/"],
         "psr-4": {
             "Symprowire\\": "src/"
         }
