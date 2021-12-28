@@ -4,17 +4,27 @@ namespace Symprowire\Engine;
 
 use JetBrains\PhpStorm\Pure;
 use ProcessWire\ProcessWire;
+use ProcessWire\Wire;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 class SymprowireRouteLoader extends Loader
 {
-    protected ProcessWire $wire;
+    protected ?Wire $wire;
 
     #[Pure]
-    public function __construct(ProcessWire $processWire) {
-        $this->wire = $processWire;
+    /**
+     * we typehint Wire, this will accept our ProcessWire Mock
+     * To check if its the real ProcessWire instance installed and running we have to check for ProcessWire explicitly
+     * We do not want to set the Mock to $this as routing is created from the Database
+     */
+    public function __construct(Wire $processWire) {
+        if($processWire instanceof ProcessWire) {
+            $this->wire = $processWire;
+        } else {
+            $this->wire = null;
+        }
         parent::__construct();
     }
 
@@ -30,6 +40,13 @@ class SymprowireRouteLoader extends Loader
     public function load(mixed $resource, string $type = null): RouteCollection
     {
         $routes = new RouteCollection();
+
+        /**
+         * Return an empty RouteCollection if ProcessWire is not present
+         * This will open up the whole Setup for the Console as we now could call the codebase without ProcessWire
+         */
+        if(!$this->wire) return $routes;
+
         $templates = $this->wire->templates->find('altFilename=controller');
 
         foreach($templates as $template) {

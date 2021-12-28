@@ -1,15 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-/**
- * TODO: decouple ProcessWire creation from composer due to Class Conflicts if not dumped optimized
- */
+
 use Symprowire\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
-    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
-}
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function () {

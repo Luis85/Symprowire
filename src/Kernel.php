@@ -3,11 +3,13 @@
 namespace Symprowire;
 
 use ProcessWire\ProcessWire;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use ProcessWire\Wire;
+use Symprowire\Engine\ProcessWireMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symprowire\Interfaces\SymprowireKernelInterface;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 
 /**
  * The Symprowire Kernel
@@ -61,17 +63,23 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * Inject ProcessWire in the DI Container if present
      * this will setup our configured synthetic service and make ProcessWire available in the System
      *
-     * TODO: In order to use the console we have to fill the synthetic pw service with a generic stdClass. This should be refactored I guess
+     * TODO: In order to use the console we have to fill the synthetic pw service with a mock. This should be refactored I guess
      *
      */
     protected function initializeContainer(): void
     {
+        /**
+         * TODO fix this...
+         *
+         * we use a Mock which extends Wire if wire is not set on construction. Like when using the console.
+         * This will have implications trough out the whole execution
+         * We have to check the instance every time we use ProcessWire, like in our RouteLoader
+         */
         parent::initializeContainer();
-        if($this->wire instanceof ProcessWire) {
+        if($this->wire instanceof Wire) {
             $this->container->set('processwire', $this->wire);
         } else {
-            // TODO fix this...
-            $this->container->set('processwire', new \stdClass());
+            $this->container->set('processwire', new ProcessWireMock());
         }
     }
 
