@@ -32,8 +32,11 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 
     /**
      *
-     * TODO to make the whole setup testable we have to make a ProcessWire Mock, otherwise every test against the business logic depends on the database
+     * Construct The Symprowire Kernel
+     * --------------------------
+     *
      * Running the Kernel with a Runtime will give us a testable Interface but we are dependend on a ProcessWire instance
+     * TODO to make the whole setup testable we have to make a ProcessWire Mock, otherwise every test against the business logic depends on the database
      *
      * @param ProcessWire|null $wire
      *

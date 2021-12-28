@@ -1,8 +1,8 @@
 <?php namespace ProcessWire;
 
 use Exception;
-use Symprowire\Engine\SymprowireRuntime;
 use Symprowire\Kernel;
+use Symprowire\Engine\SymprowireRuntime;
 
 /**
  * This is the FrontController of Symprowire
