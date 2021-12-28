@@ -37,6 +37,10 @@ To seperate everything we asume our App lives in /site.
 Make sure to not install the Dev-Dependencies as this will result in duplicate class Exceptions.
 You have to follow PSR-4 naming conventions and have to use site/src for your App.
 
+## Tests
+
+`php bin/phpunit`
+
 ## Recommended Modules
 
 - Tracy Debugger

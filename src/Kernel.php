@@ -43,7 +43,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * @param ProcessWire|null $wire
      *
      */
-    public function __construct(ProcessWire $wire = null)
+    public function __construct(ProcessWire $wire = null, bool $test = false)
     {
         if($wire) {
             $this->wire = $wire;
@@ -53,6 +53,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
             $debug = true;
         }
         $environment =  $debug ? 'dev' : 'prod';
+        $environment = $test ? 'test' : $environment;
 
         parent::__construct($environment, (bool) $debug);
     }
