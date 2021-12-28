@@ -17,7 +17,7 @@ class KernelTestCase extends KernelTest
         if (null === static::$class) {
             static::$class = static::getKernelClass();
         }
-        static::$kernel = new static::$class(null, true);
+        static::$kernel = new static::$class(null, ['test' => true]);
         static::$kernel->boot();
         static::$booted = true;
 

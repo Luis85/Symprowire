@@ -42,7 +42,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * @param ProcessWire|null $wire
      *
      */
-    public function __construct(ProcessWire $wire = null, bool $test = false)
+    public function __construct(ProcessWire $wire = null, array $params = ['test' => false])
     {
         if($wire) {
             $this->wire = $wire;
@@ -52,7 +52,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
             $debug = true;
         }
         $environment =  $debug ? 'dev' : 'prod';
-        $environment = $test ? 'test' : $environment;
+        $environment = $params['test'] ? 'test' : $environment;
 
         parent::__construct($environment, (bool) $debug);
     }
@@ -71,7 +71,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
         /**
          * TODO fix this...
          *
-         * we use a Mock which extends Wire if wire is not set on construction. Like when using the console.
+         * we use a Mock which extends Wire if ProcessWire is not set on construction. Like when using the console.
          * This will have implications trough out the whole execution
          * We have to check the instance every time we use ProcessWire, like in our RouteLoader
          */

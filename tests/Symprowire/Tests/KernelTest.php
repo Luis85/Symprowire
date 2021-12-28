@@ -18,7 +18,7 @@ class KernelTest extends KernelTestCase
 
     /**
      *
-     * @testdox Kernel is bootable
+     * @testdox is bootable
      *
      * @covers \Symprowire\Kernel
      *
@@ -31,7 +31,7 @@ class KernelTest extends KernelTestCase
     }
 
     /**
-     * @testdox Kernel is runnable and TestController responded
+     * @testdox is runnable and TestController responded
      * @throws SymprowireRequestFactoryException
      *
      * @covers \Symprowire\Kernel
@@ -57,6 +57,7 @@ class KernelTest extends KernelTestCase
         $response = $symprowire->getResponse();
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->getStatusCode());
+        $this->assertIsInt($symprowire->getRequest()->attributes->get('_processed'));
         $this->assertSame('controller responded', $response->getContent());
         // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
         restore_error_handler ();

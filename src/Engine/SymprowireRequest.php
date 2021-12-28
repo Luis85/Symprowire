@@ -2,6 +2,7 @@
 
 namespace Symprowire\Engine;
 
+use Engine\SymprowireTestRequest;
 use Exception;
 use ProcessWire\ProcessWire;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,19 +23,31 @@ class SymprowireRequest extends Request
      *
      * @throws SymprowireRequestFactoryException
      */
-    public static function createSympro(ProcessWire $wire = null): Request
+    public static function createSympro(ProcessWire $wire = null, bool $test = false): Request
     {
-        if(!$wire) return self::createTestSympro();
-        try {
+        /**
+         * We cant enter the application without a proper Request which contains ProcessWire
+         * The Kernel depends heavily on ProcessWire therefor we have to return a TestRequest if ProcessWire is not set or test is true, which will get routed to our TestController
+         */
+        if($test || !$wire) return SymprowireTestRequest::createTestSympro();
 
+        try {
             $templateName = $wire->page->template->name;
             $path = '/'.$wire->sanitizer->pageName($templateName);
+
+            /**
+             * One way to define a Template Route is to use a _sympro=$action GET Parameter at your URL
+             * The Routeloader will add a new route dynamically which will resolve to your Template Controller or to an Exception if no Controller is found
+             */
             $action = $wire->input->get('_sympro', 'camelCase') ?: 'index';
             $sympro = $wire->input->get('_sympro', 'camelCase');
-
             if($sympro) {
                 $path = $path . '/' . $sympro;
             }
+
+            /**
+             * attach ProcessWire to the Request and add some more details
+             */
             $requestAttributes = [
                 '_received' => hrtime(true),
                 '_processed' => null,
@@ -46,6 +59,11 @@ class SymprowireRequest extends Request
             foreach($wire->input->get() as $key => $value) {
                 $requestAttributes[$key] = $value;
             }
+
+            /**
+             * to make our Router work we have to set our Template as URI
+             * The Controller Resolver will then resolve to our TemplateController
+             */
             $serverVars = [];
             $request = self::create($path);
             foreach($_SERVER as $key => $value) {
@@ -55,18 +73,12 @@ class SymprowireRequest extends Request
                     $serverVars[$key] = $value;
                 }
             }
-            $request->initialize($_GET, $_POST, $requestAttributes, $_COOKIE, $_FILES, $serverVars);
 
+            $request->initialize($_GET, $_POST, $requestAttributes, $_COOKIE, $_FILES, $serverVars);
 
         } catch (Exception $exception) {
             throw new SymprowireRequestFactoryException('Request Creation Failed', 100, $exception);
         }
-        return $request;
-    }
-
-    public static function createTestSympro(): Request {
-        $request = self::create('/_test');
-        $request->attributes->set('_test', true);
         return $request;
     }
 

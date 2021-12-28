@@ -23,20 +23,33 @@ class Symprowire implements SymprowireInterface
 {
 
     protected Kernel $kernel;
+    protected array $params;
+    protected bool $finished = false;
 
     /**
-     * @throws SymprowireRequestFactoryException
+     * TODO: add the native ProcessWire File Renderer as option
+     *
      * @throws SymprowireExecutionException
+     * @throws SymprowireRequestFactoryException
      */
-    public function execute(ProcessWire $processWire, bool $test = false): Kernel {
+    public function execute(ProcessWire $processWire, array $params = []): Kernel {
+
+        $this->params = [
+            'project_dir' => $processWire->config->paths->site,
+            'renderer' => 'twig',
+            'test' => false,
+            'disable_dotenv' => true
+        ];
+        $params =  array_merge($this->params, $params);
+        $this->params = $params;
         try {
             /**
              * Create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
              */
-            $symprowire = function ($processWire) {
-                return new Kernel($processWire);
+            $symprowire = function ($processWire, $params) {
+                return new Kernel($processWire, $params);
             };
-            $runtime = new SymprowireRuntime(['project_dir' => $processWire->config->paths->site]);
+            $runtime = new SymprowireRuntime($params);
 
             /**
              * Resolve the SymprowireKernel, set env arguments, execute and get the created Response
@@ -47,6 +60,7 @@ class Symprowire implements SymprowireInterface
             $symprowire = $symprowire(...$args);
             $runtime->getRunner($symprowire)->run();
             $this->kernel = $runtime->getExecutedRunner()->getKernel();
+            $this->finished = true;
             return $this->kernel;
         } catch(Exception $exception) {
             throw new SymprowireExecutionException('Symprowire Execution Failed', 200, $exception);
@@ -54,12 +68,11 @@ class Symprowire implements SymprowireInterface
     }
 
     /**
-     * TODO: add the native ProcessWire File Renderer as option
-     * @param string $renderer
+     *
      * @return string
      */
     #[Pure]
-    public function render(string $renderer = 'twig'): string {
+    public function render(): string {
         return $this->kernel->getResponse()->getContent();
     }
 }
