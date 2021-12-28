@@ -28,15 +28,15 @@ class Symprowire implements SymprowireInterface
      * @throws SymprowireRequestFactoryException
      * @throws SymprowireExecutionException
      */
-    public function execute(ProcessWire $wire, bool $test = false): Kernel {
+    public function execute(ProcessWire $processWire, bool $test = false): Kernel {
         try {
             /**
              * Create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
              */
-            $symprowire = function ($wire) {
-                return new Kernel($wire);
+            $symprowire = function ($processWire) {
+                return new Kernel($processWire);
             };
-            $runtime = new SymprowireRuntime(['project_dir' => $wire->config->paths->site]);
+            $runtime = new SymprowireRuntime(['project_dir' => $processWire->config->paths->site]);
 
             /**
              * Resolve the SymprowireKernel, set env arguments, execute and get the created Response

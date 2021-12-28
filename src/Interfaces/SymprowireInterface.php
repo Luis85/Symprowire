@@ -7,7 +7,7 @@ use Symprowire\Kernel;
 
 interface SymprowireInterface
 {
-    public function execute(ProcessWire $wire, bool $test = false): Kernel;
+    public function execute(ProcessWire $processWire, bool $test = false): Kernel;
 
     public function render(): string;
 }
