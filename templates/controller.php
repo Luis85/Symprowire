@@ -8,7 +8,7 @@ use Symprowire\Kernel;
  * This is the FrontController of Symprowire
  *
  * We use our SymprowireRuntime to execute Symprowire and return the Response Content to get ProcessWire back in charge.
- * bootstrap.php will create a callable to execute the Symprowire/Kernel and tries to inject the current ProcessWire instance into the Dependecy Container.
+ * First we will create a callable to execute the Symprowire/Kernel and injecting the current ProcessWire instance into the Dependency Container.
  * Every Exception thrown inside Symprowire should be handled by the Framework.
  * If the Framework itself fails, ProcessWire could catch up
  *
@@ -19,7 +19,7 @@ try {
     require_once($this->config->paths->site . 'vendor/autoload.php');
 
     /**
-     * lets create a Symprowire callable from the Symprowire/Kernel and create a new Runtime
+     * lets create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
      */
     $symprowire = function (ProcessWire $wire) {
         return new Kernel($wire);
