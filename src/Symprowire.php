@@ -10,6 +10,15 @@ use ProcessWire\ProcessWire;
 use Symprowire\Engine\SymprowireRuntime;
 use Symprowire\Exception\SymprowireRequestFactoryException;
 
+/**
+ * Symprowire - a PHP MVC Framework for ProcessWire
+ * ------------------------------------------------
+ *
+ * This Class is mainly responsible to execute the Kernel with a given ProcessWire instance.
+ * Execution will return the processed Kernel with attached Request and Response
+ * To get the processed Response Data as a string, just call the ::render()
+ *
+ */
 class Symprowire implements SymprowireInterface
 {
 
@@ -44,8 +53,13 @@ class Symprowire implements SymprowireInterface
         }
     }
 
+    /**
+     * TODO: add the native ProcessWire File Renderer as option
+     * @param string $renderer
+     * @return string
+     */
     #[Pure]
-    public function render(): string {
+    public function render(string $renderer = 'twig'): string {
         return $this->kernel->getResponse()->getContent();
     }
 }
