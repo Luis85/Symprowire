@@ -77,7 +77,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
          * We have to check the instance every time we use ProcessWire, like in our RouteLoader
          */
         parent::initializeContainer();
-        if($this->wire instanceof Wire) {
+        if($this->wire instanceof ProcessWire) {
             $this->container->set('processwire', $this->wire);
         } else {
             $this->container->set('processwire', new ProcessWireMock());
