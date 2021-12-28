@@ -127,9 +127,9 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     }
 
     /**
-     * @return ProcessWire
+     * @return ProcessWire|null
      */
-    public function getProcessWire(): ProcessWire {
+    public function getProcessWire(): ?ProcessWire {
         return $this->wire;
     }
 

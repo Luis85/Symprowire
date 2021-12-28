@@ -22,8 +22,9 @@ class SymprowireRequest extends Request
      *
      * @throws SymprowireRequestFactoryException
      */
-    public static function createSympro(ProcessWire $wire): Request
+    public static function createSympro(ProcessWire $wire = null): Request
     {
+        if(!$wire) return self::createTestSympro();
         try {
 
             $templateName = $wire->page->template->name;
@@ -60,6 +61,12 @@ class SymprowireRequest extends Request
         } catch (Exception $exception) {
             throw new SymprowireRequestFactoryException('Request Creation Failed', 100, $exception);
         }
+        return $request;
+    }
+
+    public static function createTestSympro(): Request {
+        $request = self::create('/_test');
+        $request->attributes->set('_test', true);
         return $request;
     }
 

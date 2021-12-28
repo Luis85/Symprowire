@@ -2,6 +2,10 @@
 
 namespace Symprowire\Engine;
 
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Runtime\Internal\MissingDotenv;
+use Symfony\Component\Runtime\Internal\SymfonyErrorHandler;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
 use Symprowire\Exception\SymprowireRequestFactoryException;
@@ -17,6 +21,11 @@ class SymprowireRuntime extends SymfonyRuntime
 {
 
     protected ?SymprowireKernelRunner $runner = null;
+
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+    }
 
     /**
      * @throws SymprowireRequestFactoryException

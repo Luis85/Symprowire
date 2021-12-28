@@ -16,7 +16,7 @@ interface SymprowireKernelInterface
 
     public function getRequest(): ?Request;
 
-    public function getProcessWire(): ProcessWire;
+    public function getProcessWire(): ?ProcessWire;
 
     public function getExecutionTime(): string;
 }
