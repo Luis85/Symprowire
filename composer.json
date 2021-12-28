@@ -1,7 +1,7 @@
 {
     "name": "symprowire/symprowire",
     "description": "a PHP MVC Framework for the ProcessWire CMS/CMF",
-    "type": "library",
+    "type": "project",
     "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
