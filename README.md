@@ -48,7 +48,7 @@ You have to follow PSR-4 naming conventions and have to use site/src for your Ap
 1. create a new Template file in site/templates called controller.php
 2. copy and past the code or search for vendor/symprowire/templates/controller.php
 
-````
+```php
 <?php namespace ProcessWire;
 
 use Exception;
@@ -82,7 +82,7 @@ catch (Exception $exception) {
     if($this->config->debug) throw $exception;
     throw new Wire404Exception();
 }
-````
+```
 
 Now assign to every Template you want to get served by Symprowire 'controller' as alternative Templatefile.
 
