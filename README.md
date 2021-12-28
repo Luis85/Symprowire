@@ -24,7 +24,7 @@ To use Symprowire, even in your existing sites, you just have to copy the contro
 ## Installation
 
 Symprowire gets called via Template file by ProcessWire and will be processed by page->render().
-So make sure to have ProcessWire installed.
+So make sure to have ProcessWire installed and ready.
 To seperate everything we asume our App lives in /site.
 
 `cd site`
@@ -37,7 +37,7 @@ To seperate everything we asume our App lives in /site.
 Make sure to not install the Dev-Dependencies as this will result in duplicate class Exceptions.
 You have to follow PSR-4 naming conventions and have to use site/src for your App.
 
-## Recommenced Modules
+## Recommended Modules
 
 - Tracy Debugger
 
