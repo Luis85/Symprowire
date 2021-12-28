@@ -3,7 +3,6 @@
 namespace Symprowire;
 
 use ProcessWire\ProcessWire;
-use ProcessWire\Wire;
 use Symprowire\Engine\ProcessWireMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
