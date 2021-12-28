@@ -58,6 +58,7 @@ class KernelBootTest extends KernelTestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('controller responded', $response->getContent());
+        // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
         restore_error_handler ();
     }
 }
