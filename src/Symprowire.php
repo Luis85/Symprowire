@@ -2,13 +2,13 @@
 
 namespace Symprowire;
 
-use Exception\SymprowireExecutionException;
-use Interfaces\SymprowireInterface;
-use JetBrains\PhpStorm\Pure;
-use PHPUnit\Exception;
+use Symprowire\Exception\SymprowireExecutionException;
+use Symprowire\Exception\SymprowireNotExecutedException;
+use Symprowire\Exception\SymprowireNotReadyException;
+use Symprowire\Interfaces\SymprowireInterface;
+use Exception;
 use ProcessWire\ProcessWire;
 use Symprowire\Engine\SymprowireRuntime;
-use Symprowire\Exception\SymprowireRequestFactoryException;
 
 /**
  * Symprowire - a PHP MVC Framework for ProcessWire
@@ -24,43 +24,59 @@ class Symprowire implements SymprowireInterface
 
     protected Kernel $kernel;
     protected array $params;
-    protected bool $finished = false;
+    protected bool $ready = true;
+    protected bool $executed = false;
+
+    /**
+     * TODO: add the native ProcessWire File Renderer as option
+     *
+     * @param array $params
+     */
+    public function __construct(array $params = []) {
+        $this->params = [
+            'project_dir' => dirname(__DIR__),
+            'renderer' => 'twig',
+            'test' => false,
+            'disable_dotenv' => false,
+        ];
+        $this->params = array_merge($this->params, $params);
+        $this->ready = true;
+
+    }
 
     /**
      * TODO: add the native ProcessWire File Renderer as option
      *
      * @throws SymprowireExecutionException
-     * @throws SymprowireRequestFactoryException
      */
-    public function execute(ProcessWire $processWire, array $params = []): Kernel {
+    public function execute(ProcessWire $processWire = null): Kernel {
 
-        $this->params = [
-            'project_dir' => $processWire->config->paths->site,
-            'renderer' => 'twig',
-            'test' => false,
-            'disable_dotenv' => true
-        ];
-        $params =  array_merge($this->params, $params);
-        $this->params = $params;
+        $params = $this->params;
+
+        if($processWire instanceof ProcessWire) {
+            $params['project_dir'] = $processWire->config->paths->site;
+        }
+
         try {
             /**
              * Create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
              */
-            $symprowire = function ($processWire, $params) {
+            $kernel = function ($processWire, $params) {
                 return new Kernel($processWire, $params);
             };
-            $runtime = new SymprowireRuntime($params);
+            $runtime = new SymprowireRuntime(['disable_dotenv' => true]);
 
             /**
              * Resolve the SymprowireKernel, set env arguments, execute and get the created Response
              * we send our Kernel as callable to the runtime and execute the Kernel
              * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
              */
-            [$symprowire, $args] = $runtime->getResolver($symprowire)->resolve();
-            $symprowire = $symprowire(...$args);
-            $runtime->getRunner($symprowire)->run();
+            [$kernel, $args] = $runtime->getResolver($kernel)->resolve();
+            $kernel = $kernel(...$args);
+            $runtime->getRunner($kernel)->run();
             $this->kernel = $runtime->getExecutedRunner()->getKernel();
-            $this->finished = true;
+
+            $this->executed = true;
             return $this->kernel;
         } catch(Exception $exception) {
             throw new SymprowireExecutionException('Symprowire Execution Failed', 200, $exception);
@@ -70,9 +86,26 @@ class Symprowire implements SymprowireInterface
     /**
      *
      * @return string
+     * @throws SymprowireNotReadyException
+     * @throws SymprowireNotExecutedException
      */
-    #[Pure]
     public function render(): string {
+        if(!$this->ready) throw new SymprowireNotReadyException('Symprowire is not ready yet. Maybe construction failed silently', 201);
+        if(!$this->executed) throw new SymprowireNotExecutedException('Symprowire is not executed yet. Try to call $symprowire->render() first', 202);
         return $this->kernel->getResponse()->getContent();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReady(): bool {
+        return $this->ready;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExecuted(): bool {
+        return $this->executed;
     }
 }

@@ -51,7 +51,7 @@ You have to follow PSR-4 naming conventions and have to use site/src for your Ap
 ```php
 <?php namespace ProcessWire;
 
-use Exception;
+use Symprowire\Exception;
 use Symprowire\Symprowire;
 
 

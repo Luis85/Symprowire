@@ -1,13 +1,16 @@
 <?php
 
-namespace Interfaces;
+namespace Symprowire\Interfaces;
 
 use ProcessWire\ProcessWire;
-use Symprowire\Kernel;
 
 interface SymprowireInterface
 {
-    public function execute(ProcessWire $processWire, array $params = []): Kernel;
+    public function execute(ProcessWire $processWire = null): SymprowireKernelInterface;
 
     public function render(): string;
+
+    public function isReady(): bool;
+
+    public function isExecuted(): bool;
 }

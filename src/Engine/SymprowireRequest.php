@@ -2,7 +2,6 @@
 
 namespace Symprowire\Engine;
 
-use Engine\SymprowireTestRequest;
 use Exception;
 use ProcessWire\ProcessWire;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,13 +2,10 @@
 
 namespace Symprowire\Engine;
 
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\Runtime\Internal\MissingDotenv;
-use Symfony\Component\Runtime\Internal\SymfonyErrorHandler;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
 use Symprowire\Exception\SymprowireRequestFactoryException;
+use Symprowire\Exception\SymprowireRuntimeException;
 use Symprowire\Interfaces\SymprowireKernelInterface;
 
 /**
@@ -29,6 +26,7 @@ class SymprowireRuntime extends SymfonyRuntime
 
     /**
      * @throws SymprowireRequestFactoryException
+     * @throws SymprowireRuntimeException
      *
      * Create the Request and return the Kernel Runner
      * unlike the Symfony runtime we do not exit out after execution as our KernelRunner will atach the Response to the Kernel for the ProcessWire handshake
@@ -39,8 +37,10 @@ class SymprowireRuntime extends SymfonyRuntime
         if ($application instanceof SymprowireKernelInterface) {
             $this->runner = new SymprowireKernelRunner($application, SymprowireRequest::createSympro($application->getProcessWire()));
             return $this->runner;
+        } else {
+            throw new SymprowireRuntimeException('This Runtime does not accept this Kernel', 200);
         }
-        return parent::getRunner($application);
+        //return parent::getRunner($application);
     }
 
     public function getExecutedRunner(): SymprowireKernelRunner {

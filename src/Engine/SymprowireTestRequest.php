@@ -1,6 +1,6 @@
 <?php
 
-namespace Engine;
+namespace Symprowire\Engine;
 
 use Symfony\Component\HttpFoundation\Request;
 

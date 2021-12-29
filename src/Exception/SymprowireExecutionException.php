@@ -1,6 +1,6 @@
 <?php
 
-namespace Exception;
+namespace Symprowire\Exception;
 
 use Symprowire\Exception\SymprowireFrameworkException;
 
