@@ -33,13 +33,13 @@ Symprowire gets called via Template file by ProcessWire and will be processed by
 
 1. Download ProcessWire 3.x from the [ProcessWire](https://processwire.com/) Homepage
 2. Install ProcessWire with debug mode enabled and setup your Environment
-3. Make sure that `$config->appendTemplateFile` and `$config->prependTemplateFile` are empty
-4. Now open up the `/site` folder in the Terminal of your liking
-5. Init your Project with `composer init` and follow the instructions
-7. `composer require symprowire/symprowire`
-8. `composer install`
-10. copy `vendor/symprowire/symprowire/templates/controller.php` into your templates folder
-11. change the Alternative Templatefile to 'controller' if you want to let Symprowire render it
+3. Now open up the `/site` folder in the Terminal of your liking
+4. Init your Project with `composer init` and follow the instructions
+5. `composer require symprowire/symprowire`
+6. `composer install`
+7. copy `vendor/symprowire/symprowire/templates/controller.php` into your templates folder
+8. change the Alternative Templatefile to 'controller'
+9. Make sure that `$config->appendTemplateFile` and `$config->prependTemplateFile` are disabled
 
 >You have to follow PSR-4 naming conventions and have to use site/src for your App in composer.json
 

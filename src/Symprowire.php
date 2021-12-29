@@ -9,6 +9,7 @@ use Symprowire\Interfaces\SymprowireInterface;
 use Exception;
 use ProcessWire\ProcessWire;
 use Symprowire\Engine\SymprowireRuntime;
+use TypeError;
 
 /**
  * Symprowire - a PHP MVC Framework for ProcessWire
@@ -34,10 +35,10 @@ class Symprowire implements SymprowireInterface
      */
     public function __construct(array $params = []) {
         $this->params = [
-            'project_dir' => dirname(__DIR__),
+            'project_dir' => dirname(__DIR__, 1),
             'renderer' => 'twig',
             'test' => false,
-            'disable_dotenv' => false,
+            'disable_dotenv' => true,
         ];
         $this->params = array_merge($this->params, $params);
         $this->ready = true;
@@ -54,26 +55,28 @@ class Symprowire implements SymprowireInterface
         $params = $this->params;
 
         if($processWire instanceof ProcessWire) {
-            $params['project_dir'] = $processWire->config->paths->site;
+            $params['project_dir'] = $processWire->config->paths->root . 'site';
         }
 
         try {
+
             /**
              * Create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
              */
-            $kernel = function ($processWire, $params) {
-                return new Kernel($processWire, $params);
+            $app = function () use($processWire, $params) {
+                return new Kernel($processWire , $params);
             };
-            $runtime = new SymprowireRuntime(['disable_dotenv' => true]);
+
+            $runtime = new SymprowireRuntime($params);
 
             /**
              * Resolve the SymprowireKernel, set env arguments, execute and get the created Response
              * we send our Kernel as callable to the runtime and execute the Kernel
              * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
              */
-            [$kernel, $args] = $runtime->getResolver($kernel)->resolve();
-            $kernel = $kernel(...$args);
-            $runtime->getRunner($kernel)->run();
+            [$app, $args] = $runtime->getResolver($app)->resolve();
+            $app = $app(...$args);
+            $runtime->getRunner($app)->run();
             $this->kernel = $runtime->getExecutedRunner()->getKernel();
 
             $this->executed = true;

@@ -19,11 +19,6 @@ class SymprowireRuntime extends SymfonyRuntime
 
     protected ?SymprowireKernelRunner $runner = null;
 
-    public function __construct(array $options = [])
-    {
-        parent::__construct($options);
-    }
-
     /**
      * @throws SymprowireRequestFactoryException
      * @throws SymprowireRuntimeException

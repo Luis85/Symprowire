@@ -53,7 +53,6 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
         }
         $environment =  $debug ? 'dev' : 'prod';
         $environment = $params['test'] ? 'test' : $environment;
-
         parent::__construct($environment, (bool) $debug);
     }
 
