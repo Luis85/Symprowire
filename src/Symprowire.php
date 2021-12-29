@@ -9,7 +9,6 @@ use Symprowire\Interfaces\SymprowireInterface;
 use Exception;
 use ProcessWire\ProcessWire;
 use Symprowire\Engine\SymprowireRuntime;
-use TypeError;
 
 /**
  * Symprowire - a PHP MVC Framework for ProcessWire
@@ -23,9 +22,13 @@ use TypeError;
 class Symprowire implements SymprowireInterface
 {
 
+    public const ENGINE = 'Symprowire';
+    public const VERSION = '0.1.0';
+
     protected Kernel $kernel;
     protected array $params;
-    protected bool $ready = true;
+    protected string $projectDir;
+    protected bool $ready = false;
     protected bool $executed = false;
 
     /**
@@ -35,24 +38,30 @@ class Symprowire implements SymprowireInterface
      */
     public function __construct(array $params = []) {
         $this->params = [
-            'project_dir' => dirname(__DIR__, 1),
             'renderer' => 'twig',
             'test' => false,
             'disable_dotenv' => true,
         ];
         $this->params = array_merge($this->params, $params);
+        $this->projectDir = dirname(__DIR__, 1);
         $this->ready = true;
-
     }
 
     /**
      * TODO: add the native ProcessWire File Renderer as option
+     *
+     * Create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
+     * Resolve the SymprowireKernel, set env arguments, execute and get the created Response
+     * we send our Kernel as callable to the runtime and execute the Kernel
+     * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
+     *
      *
      * @throws SymprowireExecutionException
      */
     public function execute(ProcessWire $processWire = null): Kernel {
 
         $params = $this->params;
+        $params['project_dir'] = $this->projectDir;
 
         if($processWire instanceof ProcessWire) {
             $params['project_dir'] = $processWire->config->paths->root . 'site';
@@ -60,27 +69,21 @@ class Symprowire implements SymprowireInterface
 
         try {
 
-            /**
-             * Create a Symprowire callable from the Symprowire/Kernel, injecting ProcessWire and create a new Runtime
-             */
             $app = function () use($processWire, $params) {
                 return new Kernel($processWire , $params);
             };
-
             $runtime = new SymprowireRuntime($params);
-
-            /**
-             * Resolve the SymprowireKernel, set env arguments, execute and get the created Response
-             * we send our Kernel as callable to the runtime and execute the Kernel
-             * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
-             */
             [$app, $args] = $runtime->getResolver($app)->resolve();
             $app = $app(...$args);
             $runtime->getRunner($app)->run();
             $this->kernel = $runtime->getExecutedRunner()->getKernel();
-
             $this->executed = true;
+
+            /**
+             * We return the executed Kernel to let the Developer handle the Response
+             */
             return $this->kernel;
+
         } catch(Exception $exception) {
             throw new SymprowireExecutionException('Symprowire Execution Failed', 200, $exception);
         }
@@ -94,7 +97,7 @@ class Symprowire implements SymprowireInterface
      */
     public function render(): string {
         if(!$this->ready) throw new SymprowireNotReadyException('Symprowire is not ready yet. Maybe construction failed silently', 201);
-        if(!$this->executed) throw new SymprowireNotExecutedException('Symprowire is not executed yet. Try to call $symprowire->render() first', 202);
+        if(!$this->executed) throw new SymprowireNotExecutedException('Symprowire is not executed yet. Try to call $symprowire->execute() first', 202);
         return $this->kernel->getResponse()->getContent();
     }
 

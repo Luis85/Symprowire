@@ -22,9 +22,6 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 {
     use MicroKernelTrait;
 
-    public const ENGINE = 'Symprowire';
-    public const VERSION = '0.0.1';
-
     protected ?Request $request = null;
     protected ?Response $response = null;
     protected string $executionTime = '';
@@ -36,7 +33,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * Construct The Symprowire Kernel
      * --------------------------
      *
-     * Running the Kernel with a Runtime will give us a testable Interface but we are dependend on a ProcessWire instance
+     * Running the Kernel with a Runtime will give us a testable Interface
      * TODO to make the whole setup testable we have to make a ProcessWire Mock, otherwise every test against the business logic depends on the database
      *
      * @param ProcessWire|null $wire
