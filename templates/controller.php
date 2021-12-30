@@ -25,7 +25,7 @@ $symprowire = new Symprowire($params);
 $symprowire->execute($this->wire);
 
 if($this->modules->isInstalled('TracyDebugger') && $this->config->debug) {
-    bd($symprowire, 'Symprowire / Executed Kernel', [4]);
+    bd($symprowire, 'Symprowire / Executed Kernel', [5]);
 }
 
 echo $symprowire->render();
