@@ -151,7 +151,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     public function getLogDir(): string
     {
         if($this->wire instanceof ProcessWire) {
-            return $this->wire->config->paths->root . 'site/assets/symprowire/' . $this->environment . '/log';
+            return $this->getProjectDir() . '/assets/symprowire/' . $this->environment . '/log';
         } else {
             return $this->getProjectDir() . '/var/log/' . $this->environment;
         }
@@ -163,7 +163,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     public function getCacheDir(): string
     {
         if($this->wire instanceof ProcessWire) {
-            return $this->wire->config->paths->root . 'site/assets/symprowire/' . $this->environment . '/cache';
+            return $this->getProjectDir() . '/assets/symprowire/' . $this->environment . '/cache';
         } else {
             return $this->getProjectDir() . '/var/cache/' . $this->environment;
         }
@@ -234,19 +234,6 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     }
 
     /**
-     * Gets the path to the configuration directory.
-     */
-    private function getConfigDir(): string
-    {
-        if($this->wire instanceof ProcessWire) {
-            return $this->wire->config->paths->root . 'site/config';
-        } else {
-            return $this->getProjectDir().'/config';
-        }
-
-    }
-
-    /**
      *
      * Gets the path to the configuration if Symprowire is used as ProcessWire renderer.
      *
@@ -268,5 +255,29 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 
     }
 
+    /**
+     * Gets the application root dir. Would be path/to/site in a ProcessWire Environment and the package.json root in standalone mode
+     */
+    public function getProjectDir(): string
+    {
+        if (!isset($this->projectDir)) {
+            $r = new \ReflectionObject($this);
+
+            if (!is_file($dir = $r->getFileName())) {
+                throw new \LogicException(sprintf('Cannot auto-detect project dir for kernel of class "%s".', $r->name));
+            }
+
+            $dir = $rootDir = \dirname($dir);
+            while (!is_file($dir.'/composer.json')) {
+                if ($dir === \dirname($dir)) {
+                    return $this->projectDir = $rootDir;
+                }
+                $dir = \dirname($dir);
+            }
+            $this->projectDir = $this->wire instanceof ProcessWire ? $this->wire->config->paths->root . 'site' : $dir ;
+        }
+
+        return $this->projectDir;
+    }
 
 }
