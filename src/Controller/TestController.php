@@ -14,11 +14,11 @@ class TestController
     /**
      * Our main route to return a test Response
      *
-     * @Route("/_test", name="test_index")
+     * @Route("/_symprowire_test", name="symprowire_test_index")
      */
     public function index(): Response {
         $response = new Response();
-        $response->setContent('controller responded');
+        $response->setContent('controller.responded');
         return $response;
     }
 }

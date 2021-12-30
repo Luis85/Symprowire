@@ -65,7 +65,7 @@ class KernelTest extends KernelTestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->getStatusCode());
         $this->assertIsInt($symprowire->getRequest()->attributes->get('_processed'));
-        $this->assertSame('controller responded', $response->getContent());
+        $this->assertSame('controller.responded', $response->getContent());
         // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
         restore_error_handler ();
     }

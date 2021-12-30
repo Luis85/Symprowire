@@ -5,7 +5,6 @@ namespace Symprowire\Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symprowire\Exception\SymprowireExecutionException;
 use Symprowire\Exception\SymprowireFrameworkException;
 use Symprowire\Interfaces\SymprowireInterface;
 use Symprowire\Interfaces\SymprowireKernelInterface;
@@ -60,7 +59,6 @@ class SymprowireTest extends TestCase
      * @testdox is executable without ProcessWire
      *
      * @covers \Symprowire\Symprowire
-     * @throws SymprowireExecutionException
      */
     public function testExecution(): SymprowireKernelInterface
     {
@@ -98,7 +96,7 @@ class SymprowireTest extends TestCase
         $response = $kernel->getResponse();
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('controller responded', $response->getContent());
+        $this->assertSame('controller.responded', $response->getContent());
 
     }
 }

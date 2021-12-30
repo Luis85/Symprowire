@@ -18,7 +18,7 @@ class SymprowireTestRequest extends Request
             '_test' => true,
         ];
 
-        $request = self::create('/_test');
+        $request = self::create('/_symprowire_test');
 
         foreach($requestAttributes as $key => $value) {
             $request->attributes->set($key, $value);
