@@ -60,11 +60,11 @@ class Symprowire implements SymprowireInterface
     public function execute(ProcessWire $processWire = null): Kernel {
 
         $params = $this->params;
-        $params['project_dir'] = $this->projectDir;
 
         if($processWire instanceof ProcessWire) {
-            $params['project_dir'] = $processWire->config->paths->root . 'site';
+            $this->projectDir = $processWire->config->paths->root . 'site';
         }
+        $params['project_dir'] = $this->projectDir;
 
         $app = function () use($processWire, $params) {
             return new Kernel($processWire , $params);
