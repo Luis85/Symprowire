@@ -15,12 +15,13 @@ class SymprowireRouteLoader extends Loader
 {
     protected ?Wire $wire;
 
-    #[Pure]
+
     /**
      * we typehint Wire, this will accept our ProcessWire Mock
      * To check if its the real ProcessWire instance installed and running we have to check for ProcessWire explicitly
      * We do not want to set the Mock to $this as routing is created from the Database
      */
+    #[Pure]
     public function __construct(Wire $processWire) {
         if($processWire instanceof ProcessWire) {
             $this->wire = $processWire;
@@ -52,10 +53,11 @@ class SymprowireRouteLoader extends Loader
         $templates = $this->wire->templates->find('altFilename=controller');
 
         foreach($templates as $template) {
+
             $path = '/'. $this->wire->sanitizer->pageName($template->name);
             $controllerName = $this->wire->sanitizer->camelCase($template->name);
             $controllerName = ucfirst($controllerName);
-            $defaults = ['_controller' => $this->buildControllerName($template->name) . '::index'];
+            $defaults = ['_controller' => '\\App\\Controller\\' .$controllerName . 'Controller::index'];
             $requirements = [];
             $route = new Route($path, $defaults, $requirements);
             $routeName = strtolower($controllerName) . '_index';
@@ -63,16 +65,6 @@ class SymprowireRouteLoader extends Loader
         }
 
         return $routes;
-    }
-
-    protected function buildControllerName(string $templateName, string $namespace = ''): string {
-
-        $controllerName = $this->wire->sanitizer->camelCase($templateName);
-        if(!$namespace) {
-            $namespace = '\\Symprowire\\Controller\\';
-        }
-
-        return $namespace.ucfirst($controllerName) . 'Controller';
     }
 
     public function supports($resource, string $type = null): bool
