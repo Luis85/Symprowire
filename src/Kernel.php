@@ -25,6 +25,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     protected string $executionTime = '';
     protected ?int $executionTimeRaw = null;
     protected ?ProcessWire $wire;
+    protected array $params;
 
     /**
     * The Symprowire Kernel
@@ -43,8 +44,13 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * @param ProcessWire|null $wire
      *
      */
-    public function __construct(ProcessWire $wire = null, array $params = ['test' => false])
+    public function __construct(ProcessWire $wire = null, array $params = [])
     {
+        $this->params = [
+            'library' => false,
+            'test' => false
+        ];
+        $this->params = array_merge($this->params, $params);
         if($wire) {
             $this->wire = $wire;
             $debug = $wire->config->debug;
@@ -248,7 +254,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      */
     private function getBundlesPath(): string
     {
-        if($this->wire instanceof ProcessWire) {
+        if($this->wire instanceof ProcessWire || $this->params['library']) {
             return $this->getConfigDirAsVendor().'/bundles-library.php';
         } else {
             return $this->getConfigDir().'/bundles.php';
