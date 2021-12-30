@@ -181,7 +181,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * @param ContainerConfigurator $container
      * @param LoaderInterface $loader
      * @param ContainerBuilder $builder
-     * @throws SymprowireExecutionException
+     *
      */
     private function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
     {
@@ -217,7 +217,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      *         ->add('admin_dashboard', '/admin')
      *         ->controller('App\Controller\AdminController::dashboard')
      *     ;
-     * @throws SymprowireExecutionException
+     *
      */
     private function configureRoutes(RoutingConfigurator $routes): void
     {
@@ -248,18 +248,18 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      *
      * Gets the path to the configuration if Symprowire is used as ProcessWire renderer.
      *
-     * @throws SymprowireExecutionException
      */
     private function getConfigDirAsVendor(): string {
-        if($this->wire instanceof ProcessWire && !$this->params['library']) {
+        if($this->wire instanceof ProcessWire) {
             return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
+        } else {
+            return $this->getConfigDir();
         }
-        throw new SymprowireExecutionException('Vendor Config Called in Framework Dev Env', 200 );
     }
 
     /**
      * Gets the path to the bundles configuration file.
-     * @throws SymprowireExecutionException
+     *
      */
     private function getBundlesPath(): string
     {
