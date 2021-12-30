@@ -56,7 +56,6 @@ class Symprowire implements SymprowireInterface
      * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
      *
      *
-     * @throws SymprowireExecutionException
      */
     public function execute(ProcessWire $processWire = null): Kernel {
 
@@ -67,26 +66,20 @@ class Symprowire implements SymprowireInterface
             $params['project_dir'] = $processWire->config->paths->root . 'site';
         }
 
-        try {
+        $app = function () use($processWire, $params) {
+            return new Kernel($processWire , $params);
+        };
+        $runtime = new SymprowireRuntime($params);
+        [$app, $args] = $runtime->getResolver($app)->resolve();
+        $app = $app(...$args);
+        $runtime->getRunner($app)->run();
+        $this->kernel = $runtime->getExecutedRunner()->getKernel();
+        $this->executed = true;
 
-            $app = function () use($processWire, $params) {
-                return new Kernel($processWire , $params);
-            };
-            $runtime = new SymprowireRuntime($params);
-            [$app, $args] = $runtime->getResolver($app)->resolve();
-            $app = $app(...$args);
-            $runtime->getRunner($app)->run();
-            $this->kernel = $runtime->getExecutedRunner()->getKernel();
-            $this->executed = true;
-
-            /**
-             * We return the executed Kernel to let the Developer handle the Response
-             */
-            return $this->kernel;
-
-        } catch(Exception $exception) {
-            throw new SymprowireExecutionException('Symprowire Execution Failed', 200, $exception);
-        }
+        /**
+         * We return the executed Kernel to let the Developer handle the Response
+         */
+        return $this->kernel;
     }
 
     /**
