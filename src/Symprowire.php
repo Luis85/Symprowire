@@ -2,11 +2,9 @@
 
 namespace Symprowire;
 
-use Symprowire\Exception\SymprowireExecutionException;
 use Symprowire\Exception\SymprowireNotExecutedException;
 use Symprowire\Exception\SymprowireNotReadyException;
 use Symprowire\Interfaces\SymprowireInterface;
-use Exception;
 use ProcessWire\ProcessWire;
 use Symprowire\Engine\SymprowireRuntime;
 
@@ -43,7 +41,7 @@ class Symprowire implements SymprowireInterface
             'disable_dotenv' => true,
         ];
         $this->params = array_merge($this->params, $params);
-        $this->projectDir = dirname(__DIR__, 1);
+        $this->projectDir = dirname(__DIR__);
         $this->ready = true;
     }
 
@@ -55,7 +53,8 @@ class Symprowire implements SymprowireInterface
      * we send our Kernel as callable to the runtime and execute the Kernel
      * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
      *
-     *
+     * @throws Exception\SymprowireRequestFactoryException
+     * @throws Exception\SymprowireRuntimeException
      */
     public function execute(ProcessWire $processWire = null): Kernel {
 
