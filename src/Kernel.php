@@ -251,10 +251,10 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      * @throws SymprowireExecutionException
      */
     private function getConfigDirAsVendor(): string {
-        if($this->params['library']) {
+        if($this->wire instanceof ProcessWire && !$this->params['library']) {
             return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
         }
-        throw new SymprowireExecutionException('Vendor Config Called in a Library Situation', 200 );
+        throw new SymprowireExecutionException('Vendor Config Called in Framework Dev Env', 200 );
     }
 
     /**
