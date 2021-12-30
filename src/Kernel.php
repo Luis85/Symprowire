@@ -16,7 +16,6 @@ use Symfony\Component\Routing\RouteCollection;
 use Symprowire\Engine\ProcessWireMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symprowire\Exception\SymprowireVendorConfigurationException;
 use Symprowire\Interfaces\SymprowireKernelInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -31,6 +30,9 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
  */
 class Kernel extends BaseKernel implements SymprowireKernelInterface
 {
+
+    use MicroKernelTrait;
+
     protected ?Request $request = null;
     protected ?Response $response = null;
     protected string $executionTime = '';
@@ -171,12 +173,10 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     }
 
     /**
-     * MicrokernelTrait
      *
      * Configures the container after initializing.
      *
      */
-
     private function getConfigDirAsVendor(): string {
         return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
     }
@@ -259,114 +259,6 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 
     }
 
-    /**
-     * Gets the path to the bundles configuration file.
-     */
-    private function getBundlesPath(): string
-    {
-        return $this->getConfigDir().'/bundles.php';
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function registerBundles(): iterable
-    {
-        $contents = require $this->getBundlesPath();
-        foreach ($contents as $class => $envs) {
-            if ($envs[$this->environment] ?? $envs['all'] ?? false) {
-                yield new $class();
-            }
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     * @throws Exception
-     */
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(function (ContainerBuilder $container) use ($loader) {
-            $container->loadFromExtension('framework', [
-                'router' => [
-                    'resource' => 'kernel::loadRoutes',
-                    'type' => 'service',
-                ],
-            ]);
-
-            $kernelClass = false !== strpos(static::class, "@anonymous\0") ? parent::class : static::class;
-
-            if (!$container->hasDefinition('kernel')) {
-                $container->register('kernel', $kernelClass)
-                    ->addTag('controller.service_arguments')
-                    ->setAutoconfigured(true)
-                    ->setSynthetic(true)
-                    ->setPublic(true)
-                ;
-            }
-
-            $kernelDefinition = $container->getDefinition('kernel');
-            $kernelDefinition->addTag('routing.route_loader');
-
-            $container->addObjectResource($this);
-            $container->fileExists($this->getBundlesPath());
-
-            $configureContainer = new \ReflectionMethod($this, 'configureContainer');
-            $configuratorClass = $configureContainer->getNumberOfParameters() > 0 && ($type = $configureContainer->getParameters()[0]->getType()) instanceof \ReflectionNamedType && !$type->isBuiltin() ? $type->getName() : null;
-
-            if ($configuratorClass && !is_a(ContainerConfigurator::class, $configuratorClass, true)) {
-                $configureContainer->getClosure($this)($container, $loader);
-
-                return;
-            }
-
-            $file = (new \ReflectionObject($this))->getFileName();
-            /* @var ContainerPhpFileLoader $kernelLoader */
-            $kernelLoader = $loader->getResolver()->resolve($file);
-            $kernelLoader->setCurrentDir(\dirname($file));
-            $instanceof = &\Closure::bind(function &() { return $this->instanceof; }, $kernelLoader, $kernelLoader)();
-
-            $valuePreProcessor = AbstractConfigurator::$valuePreProcessor;
-            AbstractConfigurator::$valuePreProcessor = function ($value) {
-                return $this === $value ? new Reference('kernel') : $value;
-            };
-
-            try {
-                $configureContainer->getClosure($this)(new ContainerConfigurator($container, $kernelLoader, $instanceof, $file, $file, $this->getEnvironment()), $loader, $container);
-            } finally {
-                $instanceof = [];
-                $kernelLoader->registerAliasesForSinglyImplementedInterfaces();
-                AbstractConfigurator::$valuePreProcessor = $valuePreProcessor;
-            }
-
-            $container->setAlias($kernelClass, 'kernel')->setPublic(true);
-        });
-    }
-
-    /**
-     * @throws \ReflectionException
-     * @internal
-     */
-    public function loadRoutes(LoaderInterface $loader): RouteCollection
-    {
-        $file = (new \ReflectionObject($this))->getFileName();
-        /* @var RoutingPhpFileLoader $kernelLoader */
-        $kernelLoader = $loader->getResolver()->resolve($file, 'php');
-        $kernelLoader->setCurrentDir(\dirname($file));
-        $collection = new RouteCollection();
-
-        $configureRoutes = new \ReflectionMethod($this, 'configureRoutes');
-        $configureRoutes->getClosure($this)(new RoutingConfigurator($collection, $kernelLoader, $file, $file, $this->getEnvironment()));
-
-        foreach ($collection as $route) {
-            $controller = $route->getDefault('_controller');
-
-            if (\is_array($controller) && [0, 1] === array_keys($controller) && $this === $controller[0]) {
-                $route->setDefault('_controller', ['kernel', $controller[1]]);
-            }
-        }
-
-        return $collection;
-    }
 
 }
