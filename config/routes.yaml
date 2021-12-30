@@ -1,7 +1,3 @@
 symprowire_routes:
     resource: .
     type: processwire
-
-hello:
-    path: /home/hello
-    controller: Symprowire\Controller\HomeController::hello
