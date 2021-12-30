@@ -3,6 +3,8 @@
 namespace Symprowire\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symprowire\Exception\SymprowireExecutionException;
 use Symprowire\Exception\SymprowireFrameworkException;
 use Symprowire\Interfaces\SymprowireInterface;
@@ -26,29 +28,31 @@ class SymprowireTest extends TestCase
      * @covers \Symprowire\Symprowire
      *
      */
-    public function testSymprowire(): void
+    public function testSymprowireSpawn(): Symprowire
     {
-        $symprowire = new Symprowire();
+        $symprowire = new Symprowire(['test' => true]);
         $this->assertInstanceOf(SymprowireInterface::class, $symprowire);
         $this->assertTrue($symprowire->isReady());
+        return $symprowire;
     }
 
     /**
      *
      * @testdox renderer throws FrameworkException if not executed
      *
+     * @depends testSymprowireSpawn
      * @covers \Symprowire\Symprowire
      *
      */
-    public function testNotExecutedRenderer(): void
+    public function testNotExecutedRenderer(Symprowire $symprowire): Symprowire
     {
-        $symprowire = new Symprowire();
-        $this->assertInstanceOf(SymprowireInterface::class, $symprowire);
         $this->assertTrue($symprowire->isReady());
         $this->assertFalse($symprowire->isExecuted());
 
         $this->expectException(SymprowireFrameworkException::class);
         $symprowire->render();
+
+        return $symprowire;
     }
 
     /**
@@ -56,20 +60,45 @@ class SymprowireTest extends TestCase
      * @testdox is executable without ProcessWire
      *
      * @covers \Symprowire\Symprowire
-     *
      * @throws SymprowireExecutionException
      */
-    public function testExecution(): void
+    public function testExecution(): SymprowireKernelInterface
     {
-        $symprowire = new Symprowire();
+        $symprowire = new Symprowire(['test' => true]);
+        $this->assertInstanceOf(SymprowireInterface::class, $symprowire);
+        $this->assertTrue($symprowire->isReady());
+
         $this->assertInstanceOf(SymprowireInterface::class, $symprowire);
         $this->assertTrue($symprowire->isReady());
         $this->assertFalse($symprowire->isExecuted());
 
         $kernel = $symprowire->execute();
         $this->assertInstanceOf(SymprowireKernelInterface::class, $kernel);
+        $this->assertTrue($symprowire->isExecuted());
+
+        $request = $kernel->getRequest();
+        $this->assertIsInt($request->attributes->get('_processed'));
+        $this->assertInstanceOf(Request::class, $request);
 
         // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
         restore_error_handler ();
+
+        return $kernel;
+    }
+
+    /**
+     *
+     * @testdox executed Kernel has valid Response from TestController
+     *
+     * @depends testExecution
+     * @covers \Symprowire\Symprowire
+     */
+    public function testExecutionHasResponse($kernel): void {
+
+        $response = $kernel->getResponse();
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('controller responded', $response->getContent());
+
     }
 }

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symprowire\Engine\KernelTestCase;
 use Symprowire\Engine\SymprowireRuntime;
 use Symprowire\Exception\SymprowireRequestFactoryException;
+use Symprowire\Exception\SymprowireRuntimeException;
 use Symprowire\Kernel;
 
 /**
@@ -23,29 +24,35 @@ class KernelTest extends KernelTestCase
      * @covers \Symprowire\Kernel
      *
      */
-    public function testBootKernel(): void
+    public function testBootKernel(): Kernel
     {
         $kernel = self::bootKernel();
         $this->assertInstanceOf(Kernel::class, $kernel);
         $this->assertSame('test', $kernel->getEnvironment());
+
+        return $kernel;
     }
 
     /**
-     * @testdox is runnable and TestController responded
+     * @testdox is runnable and has valid Response from TestController
      * @throws SymprowireRequestFactoryException
+     * @throws SymprowireRuntimeException
+     *
+     * @depends testBootKernel
      *
      * @covers \Symprowire\Kernel
      * @covers \Symprowire\Engine\SymprowireRequest
      * @covers \Symprowire\Engine\SymprowireKernelRunner
      * @covers \Symprowire\Engine\SymprowireRuntime
      */
-    public function testRuntimeAndResponse(): void
+    public function testRuntimeAndResponse($kernel): void
     {
-
-        $kernel = function () {
-            return self::bootKernel();
+        // Remember, the Runtime expects a callable Kernel and NOT the actual Kernel instance
+        $kernel = function () use ($kernel) {
+            return $kernel;
         };
-        $runtime = new SymprowireRuntime(['disable_dotenv' => true]);
+
+        $runtime = new SymprowireRuntime();
         [$kernel, $args] = $runtime->getResolver($kernel)->resolve();
         $symprowire = $kernel(...$args);
         $this->assertSame(0, $runtime->getRunner($symprowire)->run());
