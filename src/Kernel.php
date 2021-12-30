@@ -170,15 +170,6 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     }
 
     /**
-     *
-     * Configures the container after initializing.
-     *
-     */
-    private function getConfigDirAsVendor(): string {
-        return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
-    }
-
-    /**
      * As we init ProcessWire as a Synthetic Service we have to inject on init and not on configuration. Keep this in mind.
      *
      * @param ContainerConfigurator $container
@@ -249,11 +240,20 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     private function getConfigDir(): string
     {
         if($this->wire instanceof ProcessWire) {
-            return $this->wire->config->paths->root . 'site/config/';
+            return $this->wire->config->paths->root . 'site/config';
         } else {
             return $this->getProjectDir().'/config';
         }
 
+    }
+
+    /**
+     *
+     * Configures the container after initializing.
+     *
+     */
+    private function getConfigDirAsVendor(): string {
+        return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
     }
 
 }
