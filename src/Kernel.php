@@ -249,11 +249,25 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 
     /**
      *
-     * Configures the container after initializing.
+     * Gets the path to the configuration if Symprowire is used as ProcessWire renderer.
      *
      */
     private function getConfigDirAsVendor(): string {
         return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
     }
+
+    /**
+     * Gets the path to the bundles configuration file.
+     */
+    private function getBundlesPath(): string
+    {
+        if($this->wire instanceof ProcessWire) {
+            return $this->getConfigDirAsVendor().'/bundles-library.php';
+        } else {
+            return $this->getConfigDir().'/bundles.php';
+        }
+
+    }
+
 
 }
