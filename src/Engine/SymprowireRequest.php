@@ -33,6 +33,7 @@ class SymprowireRequest extends Request
         try {
             $templateName = $wire->page->template->name;
             $path = '/'.$wire->sanitizer->pageName($templateName);
+            $pwPath = $wire->page->path;
 
             /**
              * One way to define a Template Route is to use a _sympro=$action GET Parameter at your URL
@@ -53,6 +54,7 @@ class SymprowireRequest extends Request
                 '_wire' => $wire,
                 '_template' => $wire->page->template->name,
                 '_path' => $path,
+                '_pw_path' => $pwPath,
                 '_action' => $action,
             ];
             foreach($wire->input->get() as $key => $value) {
