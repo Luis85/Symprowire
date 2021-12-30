@@ -9,4 +9,4 @@ services:
             # bind processwire to the constructor variable $processWire to get injected if a service needs it
             $processWire: '@processwire'
     App\:
-        resource: '../src/'
+        resource: '%kernel.project_dir%/src/'
