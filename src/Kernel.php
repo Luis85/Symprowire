@@ -48,11 +48,14 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     public function __construct(ProcessWire $wire = null, array $params = [])
     {
         $this->params = [
+            'environment' => 'prod',
+            'debug' => false,
             'library' => false,
             'console' => false,
             'test' => false
         ];
         $this->params = array_merge($this->params, $params);
+
         if($wire) {
             $this->wire = $wire;
             $debug = $wire->config->debug;
@@ -62,6 +65,11 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
         }
         $environment =  $debug ? 'dev' : 'prod';
         $environment = $this->params['test'] ? 'test' : $environment;
+
+        // Force Settings
+        if(isset($params['environment'])) $environment = $params['environment'];
+        if(isset($params['debug'])) $debug = $params['debug'];
+
         parent::__construct($environment, (bool) $debug);
     }
 
