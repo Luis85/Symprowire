@@ -2,10 +2,9 @@
 
 namespace Symprowire\Engine;
 
-use Exception;
 use ProcessWire\ProcessWire;
+use ProcessWire\WireException;
 use Symfony\Component\HttpFoundation\Request;
-use Symprowire\Exception\SymprowireRequestFactoryException;
 
 /**
  * The SymprowireRequest Class
@@ -20,7 +19,7 @@ class SymprowireRequest extends Request
      * We need the current ProcessWire instance to create our own SymprowireRequest.
      * We add some ProcessWire specific attributes to the Request to make them easy accessable troughout the app
      *
-     * @throws SymprowireRequestFactoryException
+     * @throws WireException
      */
     public static function createSympro(ProcessWire $wire = null, bool $test = false): Request
     {
@@ -30,56 +29,52 @@ class SymprowireRequest extends Request
          */
         if($test || !$wire) return SymprowireTestRequest::createTestSympro();
 
-        try {
-            $templateName = $wire->page->template->name;
-            $path = '/'.$wire->sanitizer->pageName($templateName);
-            $pwPath = $wire->page->path;
+        $templateName = $wire->page->template->name;
+        $path = '/'.$wire->sanitizer->pageName($templateName);
+        $pwPath = $wire->page->path;
 
-            /**
-             * One way to define a Template Route is to use a _sympro=$action GET Parameter at your URL
-             * The Routeloader will add a new route dynamically which will resolve to your Template Controller or to an Exception if no Controller is found
-             */
-            $action = $wire->input->get('_sympro', 'camelCase') ?: 'index';
-            $sympro = $wire->input->get('_sympro', 'camelCase');
-            if($sympro) {
-                $path = $path . '/' . $sympro;
-            }
-
-            /**
-             * attach ProcessWire to the Request and add some more details
-             */
-            $requestAttributes = [
-                '_received' => hrtime(true),
-                '_processed' => null,
-                '_wire' => $wire,
-                '_template' => $wire->page->template->name,
-                '_path' => $path,
-                '_pw_path' => $pwPath,
-                '_action' => $action,
-            ];
-            foreach($wire->input->get() as $key => $value) {
-                $requestAttributes[$key] = $value;
-            }
-
-            /**
-             * to make our Router work we have to set our Template as URI
-             * The Controller Resolver will then resolve to our TemplateController
-             */
-            $serverVars = [];
-            $request = self::create($path);
-            foreach($_SERVER as $key => $value) {
-                if($key === 'REQUEST_URI') {
-                    $serverVars['REQUEST_URI'] = $path;
-                } else {
-                    $serverVars[$key] = $value;
-                }
-            }
-
-            $request->initialize($_GET, $_POST, $requestAttributes, $_COOKIE, $_FILES, $serverVars);
-
-        } catch (Exception $exception) {
-            throw new SymprowireRequestFactoryException('Request Creation Failed', 100, $exception);
+        /**
+         * One way to define a Template Route is to use a _sympro=$action GET Parameter at your URL
+         * The Routeloader will add a new route dynamically which will resolve to your Template Controller or to an Exception if no Controller is found
+         */
+        $action = $wire->input->get('_sympro', 'camelCase') ?: 'index';
+        $sympro = $wire->input->get('_sympro', 'camelCase');
+        if($sympro) {
+            $path = $path . '/' . $sympro;
         }
+
+        /**
+         * attach ProcessWire to the Request and add some more details
+         */
+        $requestAttributes = [
+            '_received' => hrtime(true),
+            '_processed' => null,
+            '_wire' => $wire,
+            '_template' => $wire->page->template->name,
+            '_path' => $path,
+            '_pw_path' => $pwPath,
+            '_action' => $action,
+        ];
+        foreach($wire->input->get() as $key => $value) {
+            $requestAttributes[$key] = $value;
+        }
+
+        /**
+         * to make our Router work we have to set our Template as URI
+         * The Controller Resolver will then resolve to our TemplateController
+         */
+        $serverVars = [];
+        $request = self::create($path);
+        foreach($_SERVER as $key => $value) {
+            if($key === 'REQUEST_URI') {
+                $serverVars['REQUEST_URI'] = $path;
+            } else {
+                $serverVars[$key] = $value;
+            }
+        }
+
+        $request->initialize($_GET, $_POST, $requestAttributes, $_COOKIE, $_FILES, $serverVars);
+
         return $request;
     }
 
