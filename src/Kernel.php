@@ -178,17 +178,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      */
     private function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
     {
-        $configDir = $this->getConfigDir();
-
-        $container->import($configDir.'/{packages}/*.yaml');
-        $container->import($configDir.'/{packages}/'.$this->environment.'/*.yaml');
-        $container->import($configDir.'/{services}.php');
-
-        if (is_file($configDir.'/services.yaml')) {
-            $container->import($configDir.'/services.yaml');
-            $container->import($configDir.'/{services}_'.$this->environment.'.yaml');
-        }
-
+        // we call Vendor Config first to could override it in ProcessWire later
         if($this->wire instanceof ProcessWire) {
             $vendorConfigDir = $this->getConfigDirAsVendor();
             $container->import($vendorConfigDir.'/{packages}/*.yaml');
@@ -196,6 +186,16 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
             if (is_file($vendorConfigDir.'/services.yaml')) {
                 $container->import($vendorConfigDir.'/services.yaml');
             }
+        }
+
+        $configDir = $this->getConfigDir();
+        $container->import($configDir.'/{packages}/*.yaml');
+        $container->import($configDir.'/{packages}/'.$this->environment.'/*.yaml');
+        $container->import($configDir.'/{services}.php');
+
+        if (is_file($configDir.'/services.yaml')) {
+            $container->import($configDir.'/services.yaml');
+            $container->import($configDir.'/{services}_'.$this->environment.'.yaml');
         }
     }
 
@@ -210,15 +210,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      */
     private function configureRoutes(RoutingConfigurator $routes): void
     {
-        $configDir = $this->getConfigDir();
-
-        $routes->import($configDir.'/{routes}/'.$this->environment.'/*.yaml');
-        $routes->import($configDir.'/{routes}/*.yaml');
-        $routes->import($configDir.'/{routes}.php');
-
-        if (is_file($configDir.'/routes.yaml')) {
-            $routes->import($configDir.'/routes.yaml');
-        }
+        // we call Vendor Config first to could override it in ProcessWire later
         if($this->wire instanceof ProcessWire) {
             $vendorConfigDir = $this->getConfigDirAsVendor();
 
@@ -229,6 +221,15 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
             if (is_file($vendorConfigDir.'/routes.yaml')) {
                 $routes->import($vendorConfigDir.'/routes.yaml');
             }
+        }
+
+        $configDir = $this->getConfigDir();
+        $routes->import($configDir.'/{routes}/'.$this->environment.'/*.yaml');
+        $routes->import($configDir.'/{routes}/*.yaml');
+        $routes->import($configDir.'/{routes}.php');
+
+        if (is_file($configDir.'/routes.yaml')) {
+            $routes->import($configDir.'/routes.yaml');
         }
     }
 
