@@ -14,14 +14,7 @@ use Symprowire\Interfaces\SymprowireKernelInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 
-/**
- * The Symprowire Kernel
- * --------------------------
- *
- * A magic place. A new Symprowire Application will be spawned.
- * Based on the Symfony HttpKernel we will get a Request, attach ProcessWire to the Kernel, handle the processing and return a Response to ProcessWire's page->render
- * TODO Kernel Lifecycle Description
- */
+
 class Kernel extends BaseKernel implements SymprowireKernelInterface
 {
 
@@ -34,6 +27,12 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     protected ?ProcessWire $wire;
 
     /**
+    * The Symprowire Kernel
+    * --------------------------
+    *
+    * A magic place. A new Symprowire Application will be spawned.
+    * Based on the Symfony HttpKernel we will get a Request, attach ProcessWire to the Kernel, handle the processing and return a Response to ProcessWire's page->render
+     * TODO Kernel Lifecycle Description
      *
      * Construct The Symprowire Kernel
      * --------------------------
@@ -60,14 +59,13 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 
     /**
      *
-     * Create the Container
+     * Initialize the Container
      * Inject ProcessWire in the DI Container if present
      * this will setup our configured synthetic service and make ProcessWire available in the System
      *
      * TODO: In order to use the console we have to fill the synthetic pw service with a mock. This should be refactored I guess
      *
-     * TODO fix this...
-     *
+     * TODO: fix this...
      * we use a Mock which extends Wire if ProcessWire is not set on construction. Like when using the console.
      * This will have implications trough out the whole execution
      * We have to check the instance every time we use ProcessWire, like in our RouteLoader
