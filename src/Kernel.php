@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symprowire\Engine\ProcessWireMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symprowire\Exception\SymprowireExecutionException;
 use Symprowire\Interfaces\SymprowireKernelInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -29,11 +28,11 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     protected array $params;
 
     /**
-    * The Symprowire Kernel
-    * --------------------------
-    *
-    * A magic place. A new Symprowire Application will be spawned.
-    * Based on the Symfony HttpKernel we will get a Request, attach ProcessWire to the Kernel, handle the processing and return a Response to ProcessWire's page->render
+     * The Symprowire Kernel
+     * --------------------------
+     *
+     * Based on the Symfony HttpKernel we will get a Request, attach ProcessWire to the Kernel, handle the processing and return a Response to ProcessWire's page->render
+     *
      * TODO Kernel Lifecycle Description
      *
      * Construct The Symprowire Kernel
@@ -41,6 +40,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      *
      * Running the Kernel with a Runtime will give us a testable Interface
      * TODO to make the whole setup testable we have to make a ProcessWire Mock, otherwise every test against the business logic depends on the database
+     * TODO: make $params['library'] a computed method or introduce a new Environment
      *
      * @param ProcessWire|null $wire
      *
@@ -50,21 +50,20 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
         $this->params = [
             'environment' => 'prod',
             'debug' => false,
-            'library' => false,
-            'console' => false,
             'test' => false
         ];
         $this->params = array_merge($this->params, $params);
+        $this->params['library'] = (bool) $wire;
 
-        if($wire) {
+        if($wire instanceof ProcessWire) {
             $this->wire = $wire;
-            $debug = $wire->config->debug;
+            $this->params['debug'] = $wire->config->debug;
         } else {
             $this->wire = null;
-            $debug = true;
         }
-        $environment =  $debug ? 'dev' : 'prod';
-        $environment = $this->params['test'] ? 'test' : $environment;
+
+        $environment = $this->params['test'] ? 'test' : $this->params['environment'];
+        $debug = $this->params['debug'];
 
         // Force Settings
         if(isset($params['environment'])) $environment = $params['environment'];
@@ -165,7 +164,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     public function getLogDir(): string
     {
         if($this->wire instanceof ProcessWire) {
-            return $this->getProjectDir() . '/assets/symprowire/' . $this->environment . '/log';
+            return $this->getProjectDir() . '/assets/symprowire/log/' . $this->environment;
         } else {
             return $this->getProjectDir() . '/var/log/' . $this->environment;
         }
@@ -177,7 +176,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     public function getCacheDir(): string
     {
         if($this->wire instanceof ProcessWire) {
-            return $this->getProjectDir() . '/assets/symprowire/' . $this->environment . '/cache';
+            return $this->getProjectDir() . '/assets/symprowire/cache/' . $this->environment;
         } else {
             return $this->getProjectDir() . '/var/cache/' . $this->environment;
         }
@@ -194,7 +193,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     private function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
     {
         // we call Vendor Config first to could override it in ProcessWire later
-        if($this->wire instanceof ProcessWire && $this->params['library']) {
+        if($this->params['library']) {
             $vendorConfigDir = $this->getConfigDirAsVendor();
             $container->import($vendorConfigDir.'/{packages}/*.yaml');
             $container->import($vendorConfigDir.'/{services}.php');
@@ -230,7 +229,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
     private function configureRoutes(RoutingConfigurator $routes): void
     {
         // we call Vendor Config first to could override it in ProcessWire later
-        if($this->wire instanceof ProcessWire && $this->params['library']) {
+        if($this->params['library']) {
             $vendorConfigDir = $this->getConfigDirAsVendor();
 
             $routes->import($vendorConfigDir.'/{routes}/'.$this->environment.'/*.yaml');
@@ -258,11 +257,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      *
      */
     private function getConfigDirAsVendor(): string {
-        if($this->wire instanceof ProcessWire) {
-            return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
-        } else {
-            return $this->getConfigDir();
-        }
+        return $this->wire->config->paths->site . 'vendor/symprowire/symprowire/config';
     }
 
     /**
@@ -271,7 +266,7 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
      */
     private function getBundlesPath(): string
     {
-        if($this->wire instanceof ProcessWire || $this->params['library']) {
+        if($this->params['library']) {
             return $this->getConfigDirAsVendor().'/bundles-library.php';
         } else {
             return $this->getConfigDir().'/bundles.php';
