@@ -49,7 +49,6 @@ class SymprowireRequest extends Request
         $requestAttributes = [
             '_received' => hrtime(true),
             '_processed' => null,
-            '_wire' => $wire,
             '_template' => $wire->page->template->name,
             '_path' => $path,
             '_pw_path' => $pwPath,
