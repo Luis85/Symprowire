@@ -1,6 +1,15 @@
 # Welcome to Symprowire
 a PHP MVC Framework for ProcessWire
 
+## Features
+
+- Template rendering in a MVC Pattern (done)
+- ProcessWire as a Service (done)
+- Twig as optional Template Engine (not ready)
+- Symfony Dependency Injection / Container (done)
+- Symfony Controller Resolver based on the Template (done)
+- PHPUnit as a Testsuite (done)
+
 ## How does it work?
 
 Symprowire offers a structured way to render your ProcessWire files and compose your data.
