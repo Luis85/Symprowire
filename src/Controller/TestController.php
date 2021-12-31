@@ -4,20 +4,16 @@ namespace Symprowire\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symprowire\Engine\SymprowireResponse;
 
 /**
  * Main Testable Controller to get a Response if testing the Runtime etc.
  */
 class TestController
 {
-
-    /**
-     * Our main route to return a test Response
-     *
-     * @Route("/_symprowire_test", name="symprowire_test_index")
-     */
+    #[Route('/_symprowire_test', name: '_symprowire_test_index')]
     public function index(): Response {
-        $response = new Response();
+        $response = new SymprowireResponse();
         $response->setContent('controller.responded');
         return $response;
     }

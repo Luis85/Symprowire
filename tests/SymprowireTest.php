@@ -5,6 +5,7 @@ namespace Symprowire\Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symprowire\Engine\SymprowireResponse;
 use Symprowire\Exception\SymprowireFrameworkException;
 use Symprowire\Interfaces\SymprowireInterface;
 use Symprowire\Interfaces\SymprowireKernelInterface;
@@ -65,36 +66,44 @@ class SymprowireTest extends TestCase
         $symprowire = new Symprowire(['test' => true]);
         $this->assertInstanceOf(SymprowireInterface::class, $symprowire);
         $this->assertTrue($symprowire->isReady());
-
-        $this->assertInstanceOf(SymprowireInterface::class, $symprowire);
-        $this->assertTrue($symprowire->isReady());
         $this->assertFalse($symprowire->isExecuted());
 
         $kernel = $symprowire->execute();
         $this->assertInstanceOf(SymprowireKernelInterface::class, $kernel);
         $this->assertTrue($symprowire->isExecuted());
 
+        // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
+        restore_error_handler ();
+
+        return $kernel;
+    }
+    /**
+     *
+     * @testdox executed Kernel has valid Request
+     *
+     * @depends testExecution
+     * @covers \Symprowire\Symprowire
+     */
+    public function testExecutedKernelHasRequest($kernel): SymprowireKernelInterface {
+
         $request = $kernel->getRequest();
         $this->assertIsInt($request->attributes->get('_processed'));
         $this->assertInstanceOf(Request::class, $request);
-
-        // The Runtime registers a new Error Handler, to get rid of warnings we restore the error handler
-        restore_error_handler ();
 
         return $kernel;
     }
 
     /**
      *
-     * @testdox executed Kernel has valid Response from TestController
+     * @testdox executed Kernel has valid SymprowireResponse from TestController
      *
-     * @depends testExecution
+     * @depends testExecutedKernelHasRequest
      * @covers \Symprowire\Symprowire
      */
-    public function testExecutionHasResponse($kernel): void {
+    public function testExecutedKernelHasResponse($kernel): void {
 
         $response = $kernel->getResponse();
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertInstanceOf(SymprowireResponse::class, $response);
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('controller.responded', $response->getContent());
 
