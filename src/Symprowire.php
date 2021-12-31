@@ -2,6 +2,7 @@
 
 namespace Symprowire;
 
+use ProcessWire\WireException;
 use Symprowire\Exception\SymprowireNotExecutedException;
 use Symprowire\Exception\SymprowireNotReadyException;
 use Symprowire\Interfaces\SymprowireInterface;
@@ -53,8 +54,8 @@ class Symprowire implements SymprowireInterface
      * we send our Kernel as callable to the runtime and execute the Kernel
      * the called Symprowire/Runner will handle the callable Kernel and attach the result to the Runner
      *
-     * @throws Exception\SymprowireRequestFactoryException
      * @throws Exception\SymprowireRuntimeException
+     * @throws WireException
      */
     public function execute(ProcessWire $processWire = null): Kernel {
 
@@ -76,12 +77,14 @@ class Symprowire implements SymprowireInterface
         $this->executed = true;
 
         /**
-         * We return the executed Kernel to let the Developer handle the Response
+         * We return the executed Kernel to let the Developer handle the Response or do whatever he wants
          */
         return $this->kernel;
     }
 
     /**
+     *
+     * This is just a shortcut to render the Response
      *
      * @return string
      * @throws SymprowireNotReadyException
@@ -94,6 +97,8 @@ class Symprowire implements SymprowireInterface
     }
 
     /**
+     * isReady and isExecuted are mainly used for testing purpose for now
+     *
      * @return bool
      */
     public function isReady(): bool {
