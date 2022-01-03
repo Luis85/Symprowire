@@ -200,8 +200,8 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
             if (is_file($vendorConfigDir.'/services.yaml')) {
                 $container->import($vendorConfigDir.'/services.yaml');
             }
-            if (is_file($vendorConfigDir.'/processwire.yaml')) {
-                $container->import($vendorConfigDir.'/processwire.yaml');
+            if (is_file($vendorConfigDir.'/processwire-services.yaml')) {
+                $container->import($vendorConfigDir.'/processwire-services.yaml');
             }
         }
 
@@ -238,6 +238,9 @@ class Kernel extends BaseKernel implements SymprowireKernelInterface
 
             if (is_file($vendorConfigDir.'/routes.yaml')) {
                 $routes->import($vendorConfigDir.'/routes.yaml');
+            }
+            if (is_file($vendorConfigDir.'/processwire-routes.yaml')) {
+                $routes->import($vendorConfigDir.'/processwire-routes.yaml');
             }
         }
 
